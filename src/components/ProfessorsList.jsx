@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import {getToken} from '../services/JwtService';
-import {BaseApi} from '../app/(base)/BaseApi';
+import {getToken} from '@/services/JwtService';
+import {BaseApi} from '@/app/(base)/BaseApi';
 import { useRouter } from 'next/navigation';
 
 export default function ProfessorsList({professors,updateProfessors}) {

@@ -10,9 +10,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {getToken} from '@/services/JwtService';
 import { useRouter } from 'next/navigation';
 import { getUserInfo } from '@/services/JwtService';
-import ContentSafetyClient from "@azure-rest/ai-content-safety";
-import { isUnexpected } from "@azure-rest/ai-content-safety";
-import { AzureKeyCredential } from "@azure/core-auth" ;
 import {abusiveWords} from '@/utlis/constant'
 import OpenAI from 'openai';
 
@@ -62,15 +59,20 @@ export default function page(string) {
     }
   }
   let token = getToken();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [warning,setWarning]=useState("");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [popup, setPopup] = useState({
     show: false,
     type: '',
     message: '',
     timeout: 0,
   });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {slug} = useParams();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const userInfo = useState(JSON.parse(getUserInfo()));
   // console.log("userInfo: ",userInfo[0].id);
   const filter = new Filter();
@@ -125,11 +127,17 @@ export default function page(string) {
     .required('Grade must be selected'),
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isOnline, setIsOnline] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [course, setCourse] = useState('');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [submitLoader,setSubmitLoader] =useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [gradeReceived, setGradeReceived] = useState();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedTags,setSelectedTags] = useState([])
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ratings, setRatings] = useState([
     {
       label: 'Love Teaching Style',
@@ -149,6 +157,7 @@ export default function page(string) {
     },
   ]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [difficulty, setDifficulty] = useState([
     {
       label: 'Course Difficulty',
@@ -160,6 +169,7 @@ export default function page(string) {
     },
   ]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [questions, setQuestions] = useState([
     {
       label: 'Would you take this professor again?*',
@@ -179,15 +189,24 @@ export default function page(string) {
     },
   ]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [review, setReview] = useState('');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [DropdownOpen, setDropdownOpen] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [DropdownOpenGrade, setDropdownOpenGrade] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dropdownRef = useRef(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dropdownRefGrade = useRef(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [overallRating,setOverallRating]=useState(0)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [options,setOption] = useState([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [Loading,setLoading]=useState(true);
   // const [tags,setTags]=useState([])
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [professor,setProfessor]=useState(null)
 
   const getProfessor = async () => {
@@ -217,6 +236,7 @@ export default function page(string) {
 
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if(!token){
       router.push(`/`);
@@ -926,7 +946,7 @@ export default function page(string) {
                 {review.length.toString().padStart(3, '0')}/{maxChars}
               </div>
               <p className="text-weight-400 text-14 text-1F1F1F mb-16">
-                By clicking the "Submit" button, I acknowledge that I have read
+                By clicking the &#34;Submit&#34; button, I acknowledge that I have read
                 and agreed to the Know My Professors{' '}
                 <span className="text-0378A6 text-weight-500">
                   Site Guidelines

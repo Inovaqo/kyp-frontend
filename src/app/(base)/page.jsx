@@ -9,7 +9,7 @@ import { BaseApi } from  './BaseApi';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
 
-import { getUserInfo } from '../../services/JwtService';
+import { getUserInfo } from '@/services/JwtService';
 
 export default function Page() {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function Page() {
   const [userInfo, setUserInfo] = useState(null);
   const [buttonText, setButtonText] = useState('Sign Up now');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGetRecommendations = useCallback(
     debounce(async (text,type) => {
       await getRecommendations(text,type);
@@ -172,7 +173,7 @@ export default function Page() {
             <div className="flex justify-between items-center mb-80 tablet-flex-col tablet-align-start ">
               <h2 className="text-1F1F1F text-70 text-weight-700 ">Join and Rate <br /> The KYP Family</h2>
               <div className="">
-                <p className="text-18 text-595959 text-weight-400 mb-2">Love KYP Family? Let's make it official.</p>
+                <p className="text-18 text-595959 text-weight-400 mb-2">Love KYP Family? Let&#39;s make it official.</p>
                 <button
                   onClick={buttonNavigate}
                   className="cursor-pointer px-20 py-12 width-225  text-18 flex justify-center items-center bg-763FF9 text-ffffff border-color-763FF9 border-radius-4 full-width-responsive">

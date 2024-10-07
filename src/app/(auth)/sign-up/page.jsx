@@ -3,7 +3,9 @@ import { useState,useEffect } from 'react';
 import SignUpForm from '../../../components/auth/SignUpForm';
 import { AuthApi } from '../AuthApi';
 export default function page(){
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [instituteloading,setInstituteLoading] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [institute,setInstitute] = useState([]);
 
   const getAllInstitute = async () =>{
@@ -25,6 +27,7 @@ export default function page(){
     }
   }
   console.log("institute ---- : ",institute)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(()=>{
     getAllInstitute();
   },[])

@@ -1,14 +1,11 @@
-import ProfessorsListFilter from '../../../components/ProfessorsListFilter';
-import {Suspense} from 'react';
-
+'use client';
+import ProfessorsListFilterSuspence from "@/components/ProfessorListFilterSuspence";
 export default function page(){
 
   return<>
     <section>
       <div className="px-120 py-40 tablet-px-90 tablet-px-50 mobile-px-20">
-        <Suspense>
-          <ProfessorsListFilter />
-        </Suspense>
+          <ProfessorsListFilterSuspence />
       </div>
     </section>
   </>

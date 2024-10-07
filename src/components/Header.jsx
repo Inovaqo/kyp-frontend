@@ -3,22 +3,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { getToken, getUserInfo } from '../services/JwtService';
-import { AuthApi } from '../app/(auth)/AuthApi';
+import { getToken, getUserInfo } from '@/services/JwtService';
+import { AuthApi } from '@/app/(auth)/AuthApi';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation'
 import { useEffect, useState} from 'react';
 import CustomDropdown from '../components/user/CustomDropdown.';
 import { AutoComplete } from 'antd';
-import { BaseApi } from  '../app/(base)/BaseApi';
+import { BaseApi } from '@/app/(base)/BaseApi';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
-import { DownOutlined } from "@ant-design/icons";
-import { Input } from 'antd';
-import { LuSearch } from "react-icons/lu";
-
-
-
 
 export default function Header() {
   const searchParams = useSearchParams();

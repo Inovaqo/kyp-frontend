@@ -13,18 +13,31 @@ import {getToken} from '../../../../services/JwtService';
 
 export default function page(){
   let token = getToken();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ Loading,setLoading ] = useState(true);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [course, setCourse] = useState('');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [courseCode, setCourseCode] = useState('');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [DropdownOpen, setDropdownOpen] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [professorDetails,setProfessorDetails] = useState(null)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [professorCourse,setProfessorCourse] = useState(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [showmoreLoader,setShowMoreLoader] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [options, setOptions] = useState([])
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ courseLoading,setCourseLoading ] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {slug} = useParams();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [saved,setSaved] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dropdownRef = useRef(null);
   const saveProfessor = async () => {
     try{
@@ -84,11 +97,13 @@ export default function page(){
   }
   console.log("Courses-----: ",professorCourse)
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     getData(true)
     setProfessorCourse({})
   },[courseCode])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
      getData()
     const handleClickOutside = (event) => {

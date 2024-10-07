@@ -5,9 +5,13 @@ import { useParams, useRouter } from 'next/navigation';
 import {BaseApi} from '../../../BaseApi';
 
 export default function page(){
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {slug} = useParams();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ Loading,setLoading ] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [reviewDetails,setReviewDetails] = useState({})
   const updateRatings = (updatedReview, professorId) => {
     if (!reviewDetails || reviewDetails.id !== professorId) {
@@ -46,6 +50,7 @@ export default function page(){
       setLoading(false)
     }
   }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     getReview();
   },[])

@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import ProfessorsList from './ProfessorsList';
-import { BaseApi } from '../app/(base)/BaseApi';
+import { BaseApi } from '@/app/(base)/BaseApi';
 import CustomDropdown from './user/CustomDropdown.';
 
 export default function ProfessorsListFilter(){
