@@ -54,8 +54,6 @@ export default function Header() {
       }
   }
 
-  console.log("search:",search)
-
   const renderItem = (name, department, institute,id) => ({
     value: name,
     label: (
@@ -98,11 +96,9 @@ export default function Header() {
   }, []);
 
   useEffect(()=>{
-    console.log("Pathname-----",pathname)
     if(pathname.includes("search=")){
       console.log("search---------",pathname.split("search=").index[1])
     }
-
   },[pathname])
 
   const logout = () => {

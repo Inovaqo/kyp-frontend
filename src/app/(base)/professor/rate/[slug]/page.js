@@ -16,7 +16,7 @@ import OpenAI from 'openai';
 
 export default function page(string) {
   const client = new OpenAI({
-    apiKey: process.env.REACT_APP_GPT_SECRET_KEY || "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",
+    apiKey: process.env.NEXT_PUBLIC_GPT_SECRET_KEY || "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",
     dangerouslyAllowBrowser: true
   });
   async function checkAusiveWord(text) {
