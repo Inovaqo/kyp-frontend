@@ -144,10 +144,11 @@ export default function UserRatings() {
           </div>
         ))}
           {Number(ratingsData.page) < ratingsData.lastPage && (<div className="flex items-center justify-center mt-4">
-            <p className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={() => {
+            <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={() => {
               getRatings(type, search, true, Number(ratingsData.page) + 1,true);}}>
-            { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </p>
-
+                {/* { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> */}
+                <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div>
+             </div> 
           </div>)}
       </div>)
        :

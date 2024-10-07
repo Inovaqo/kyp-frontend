@@ -194,7 +194,8 @@ export default function ProfessorsListFilter(){
           <ProfessorsList professors={professors} updateProfessors={updateProfessors} />
           {Number(professorData.page) < professorData.lastPage &&(<div className="flex items-center justify-center mt-4">
             <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={()=>{getProfessors(type||searchParams.get('searchBy'),search||searchParams.get('search'),true,Number(professorData.page)+1,true)}}>
-             <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> </div> 
+              <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> 
+            </div> 
           </div>)}
         </div>
 

@@ -128,9 +128,13 @@ export default function Profile({userInfo,setUserProfileInfo}) {
           label:univerty.name,
         }
       })
-
-      console.log("institute option: ",instituteOption);
-      setInstitute(instituteOption)
+      if(instituteOption){
+        let selectedinstitute = instituteOption.filter(inst => inst.label === userInfo.institute.name)
+        if(selectedinstitute.length===1){
+          setSelectedInstitute(selectedinstitute[0])
+        }
+        setInstitute(instituteOption)
+      }
       setLoading(false);
     } catch (e){
       setLoading(false);
@@ -219,7 +223,7 @@ export default function Profile({userInfo,setUserProfileInfo}) {
                               'Select University'}
                           </div>
                           <div style={{display:"flex",justifyContent:"center", alignItems:"center"}} >
-                            <MdArrowDropDown  size={20} />
+                          {loading ? <span className='fieldloader'></span> : <MdArrowDropDown  size={20} />}
                           </div>
                       </div>
                     </div>

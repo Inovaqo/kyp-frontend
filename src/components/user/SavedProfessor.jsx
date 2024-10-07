@@ -121,11 +121,12 @@ return<>
     (<div>
       <ProfessorsList professors={professors} updateProfessors={updateProfessors} />
       {Number(professorsData.page) < professorsData.lastPage && (<div className="flex items-center justify-center mt-4">
-        <p className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={() => {
+        <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={() => {
           getProfessors(type, search, true, Number(professorsData.page) + 1,true);
         }}>
-              { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>}
-        </p>
+             <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> 
+              {/* { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} */}
+        </div>
       </div>)}
     </div>)
     :

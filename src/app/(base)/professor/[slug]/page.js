@@ -372,7 +372,9 @@ export default function page(){
         <Reviews reviews={professorCourse?.data} professorId={professorDetails.id} updateRatings={updateRatings} />
         {Number(professorCourse?.page) < professorCourse?.lastPage && <div className="flex items-center justify-center mt-4">
         <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={()=>{getCourses(false,Number(professorCourse?.page)+1,5,true,true)}}>
-              { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div>
+              {/* { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> */}
+             <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> 
+        </div> 
        </div> }
         </>)
       }
