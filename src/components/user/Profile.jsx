@@ -41,7 +41,6 @@ export default function Profile({userInfo,setUserProfileInfo}) {
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  '/student.png'
   // const [image, setImage] = useState(userInfo.image_url?userInfo.image_url:"/user/userImage.png");
   const [image, setImage] = useState(userInfo.image_url?userInfo.image_url:'/student.png');
 

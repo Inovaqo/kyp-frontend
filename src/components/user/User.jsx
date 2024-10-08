@@ -20,8 +20,27 @@ export default function User() {
         Number(searchParams.get('active')) || 0
     );
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [userInfo,setUserInfo] = useState(JSON.parse(getUserInfo()));
-    // console.log("userInfo: ",userInfo);
+    // const [userInfo,setUserInfo] = useState(JSON?.parse(getUserInfo()));
+    const [userInfo, setUserInfo] = useState(null);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [Loader, setLoader] = useState(true);
+
+    useEffect(() => {
+        setLoader(true)
+      try {
+        const storedUserInfo = getUserInfo(); 
+        if (storedUserInfo) {
+          const parsedUserInfo = JSON.parse(storedUserInfo); 
+          setUserInfo(parsedUserInfo);
+        } else {
+          console.log("No user info found");
+        }
+        setLoader(false)
+      } catch (error) {
+        console.error("Error parsing user info:", error);
+        setLoader(false)
+      }
+    }, []);
 
     // function getCookie(name) {
     //   const value = `; ${document.cookie}`;
@@ -44,6 +63,10 @@ export default function User() {
         <>
             <main>
                 <section>
+                { Loader
+            ?
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",marginTop:"15%", marginBottom:"30%"}}><span className="loader"></span> </div>
+            :
                     <div className="px-120 py-80 tablet-px-90 tablet-px-50 mobile-px-20">
                         <div className="d-flex flex-column align-items-center mb-5">
                             <Image
@@ -95,6 +118,7 @@ export default function User() {
                             )}
                         </div>
                     </div>
+                }
                 </section>
             </main>
         </>

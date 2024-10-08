@@ -2,20 +2,33 @@ import Image from 'next/image';
 import {getToken} from '@/services/JwtService';
 import {BaseApi} from '@/app/(base)/BaseApi';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-export default function ProfessorsList({professors,updateProfessors}) {
+export default function ProfessorsList({professors,updateProfessors,professorlist=false}) {
   let token = getToken();
   const router = useRouter();
+  const[loading,setLoading] = useState({show: false, id:0})
+
   const saveProfessor = async (id,flag) => {
-    console.log(id);
     try{
+      if(professorlist){
+        updateProfessors(id,!flag);
+      } else {
+        setLoading({show: true, id:id})
+      }
       await BaseApi.saveProfessor({professorId:id ,flag:flag?0:1})
         .then((response)=>{
-          console.log('id====');
-          updateProfessors(id);
+          if(!professorlist){
+            updateProfessors(id);
+            setLoading({show: false, id:id})
+          }
         })
     }catch(err){
-      console.error(err);
+      console.error("error---",err," list ",professorlist);
+      if(err && professorlist){
+        updateProfessors(id,flag);
+      } 
+      setLoading({show: false, id:id})
     }
   }
 
@@ -26,13 +39,13 @@ export default function ProfessorsList({professors,updateProfessors}) {
   const getDetails = (professer) =>{
     router.push(`/professor/${professer.id}`);
   }
-  console.log("professor: ",professors)
+  
   return <>
   {professors.map((professor,index) => (
     <div key={'professors-list-'+index} className="full-width" >
       <div className="border-color-D9D9D9 full-width border-radius-12 py-20 px-28 flex mb-20">
         <div className={`cursor-pointer circle  circle${index%4}`}  onClick={()=>getDetails(professor)}>
-         {professor.name.split(" ")[0].charAt(0).toUpperCase()}{professor.name.split(" ")[1].charAt(0).toUpperCase()}
+         {professor?.name.split(" ")[0].charAt(0).toUpperCase()}{professor?.name.split(" ")[1].charAt(0).toUpperCase()}
           {/* <Image className="border-radius-100 professor-img cursor-pointer" height={74} width={74} src={professor?.image_url?professor?.image_url :'/student.png'} alt={professor.image_url} onClick={()=>getDetails(professor)} /> */}
         </div>
         <div className="flex justify-between professor-mobile-flex-col full-width ">
@@ -50,6 +63,11 @@ export default function ProfessorsList({professors,updateProfessors}) {
               className="cursor-pointer px-12 flex items-center justify-between  text-18 flex justify-center items-center bg-763FF9 text-ffffff border-color-763FF9 border-radius-4 professor-text-13">
               Write a Review
             </button>
+            {
+              loading.show===true && loading.id === professor.id
+              ? 
+              <span className='savedloader ml-12'></span>
+              :
             <div onClick={()=>{saveProfessor(professor.id,professor.is_saved)}} className="ml-12 cursor-pointer">
               {/* <svg onClick={()=>{saveProfessor(professor.id,professor.is_saved)}} width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -64,6 +82,7 @@ export default function ProfessorsList({professors,updateProfessors}) {
             <img height={25} width={20} src='/savedProfessor.png'  alt='savedProfessor'/>
             }
             </div>
+            }
           </div>)}
         </div>
         <div className='larger-mobile-px-20'>

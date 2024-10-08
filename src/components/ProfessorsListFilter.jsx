@@ -37,13 +37,13 @@ export default function ProfessorsListFilter(){
     { value: 'first_name', label: 'Name' },
     { value: 'overall_rating', label: 'Rating' }
   ];
-  const updateProfessors = (professorId) => {
+  const updateProfessors = (professorId, isSaved) => {
     const updatedProfessors = professors.map(professor =>
       professor.id === professorId
-        ? { ...professor, is_saved: !professor.is_saved }
+        ? { ...professor, is_saved: isSaved }
         : professor
-    );
-    console.log(updatedProfessors);
+   );
+    
     setProfessors(updatedProfessors);
   }
   const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false)=>{
@@ -71,7 +71,7 @@ export default function ProfessorsListFilter(){
     //   showMore? setShowMoreLoader(false):  setLoading(false)
     // }
   }
-  console.log("sortOrder: ",sortOrder)
+  
   useEffect(() => {
     setSearch(searchParams.get('search')|| '')
     setType(searchParams.get('searchBy') || '0')
@@ -191,7 +191,7 @@ export default function ProfessorsListFilter(){
     professors.length > 0 ?
       (
         <div>
-          <ProfessorsList professors={professors} updateProfessors={updateProfessors} />
+          <ProfessorsList professors={professors} updateProfessors={updateProfessors} professorlist={true} />
           {Number(professorData.page) < professorData.lastPage &&(<div className="flex items-center justify-center mt-4">
             <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={()=>{getProfessors(type||searchParams.get('searchBy'),search||searchParams.get('search'),true,Number(professorData.page)+1,true)}}>
               <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> 
