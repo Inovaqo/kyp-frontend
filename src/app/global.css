@@ -1204,3 +1204,54 @@ p {
   box-shadow: 3px 3px 3px 3px  rgb(232, 232, 232);
   width: 300px;
 }
+
+.rate-input{
+  height: 50px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #D9D9D9;
+  font-size: large;
+  padding-right: 30px !important;
+  width: 400px;
+  flex: 1;
+}
+
+.rate-suggesstion {
+  position: absolute;
+  border: 1px solid rgb(204, 204, 204);
+  background-color: white;
+  z-index: 10 ;
+  width: 410px;
+  max-height: 300;
+  min-height: 50px;
+  margin-top: 4px;
+  overflow-y: auto;
+  border-radius: 3px;
+}
+
+.selected {
+  padding: 10px;
+  cursor: pointer;
+}
+.selected:hover {
+  background-color: #E6F1F6 !important;
+}
+
+.rate-input:focus {
+  border: 1px solid rgb(204, 204, 204) !important;
+  outline: none !important;
+}
+.bg-E6F1F6{
+  background-color: #E6F1F6;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 400px;
+}
+
+.dropdown-icon {
+  margin-left: -30px;
+}

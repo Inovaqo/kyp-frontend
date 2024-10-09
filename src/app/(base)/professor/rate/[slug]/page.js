@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { getUserInfo } from '@/services/JwtService';
 import {abusiveWords} from '@/utlis/constant'
 import OpenAI from 'openai';
-
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 
 export default function page(string) {
   const client = new OpenAI({
@@ -62,6 +63,10 @@ export default function page(string) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [isFocused, setIsFocused] = useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [newCourse, setNewCourse] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [warning,setWarning]=useState("");
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [popup, setPopup] = useState({
@@ -72,6 +77,8 @@ export default function page(string) {
   });
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {slug} = useParams();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [suggestions,setSuggestions]=useState([])
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const userInfo = useState(JSON.parse(getUserInfo()));
   // console.log("userInfo: ",userInfo[0].id);
@@ -131,12 +138,16 @@ export default function page(string) {
   const [isOnline, setIsOnline] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [course, setCourse] = useState('');
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [searchedCourse, setSearchedCourse] = useState('');
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [submitLoader,setSubmitLoader] =useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [gradeReceived, setGradeReceived] = useState();
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedTags,setSelectedTags] = useState([])
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // const [createCourse,setCreateCourse] = useState(false) 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ratings, setRatings] = useState([
     {
@@ -200,6 +211,8 @@ export default function page(string) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const dropdownRefGrade = useRef(null);
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const inputRef = useRef(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [overallRating,setOverallRating]=useState(0)
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [options,setOption] = useState([]);
@@ -222,7 +235,7 @@ export default function page(string) {
         setOption((prev)=>[...prev,{
           value:index,
           label:course.course_code,
-          id:course.course_id
+          id:course.id
         }])
       })
       setLoading(false)
@@ -242,9 +255,15 @@ export default function page(string) {
       router.push(`/`);
     }
     getProfessor();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        setIsFocused(false);
       }
       if (dropdownRefGrade.current && !dropdownRefGrade.current.contains(event.target)) {
         setDropdownOpenGrade(false);
@@ -284,10 +303,6 @@ export default function page(string) {
     "Tough Grader",
   ];
 
-  const tagExists = (checkTag) =>{
-   let check= selectedTags.includes(checkTag)
-   return check
-  }
 
   const updateQuestionValue = (index, value) => {
     let tempQuestions = [...questions];
@@ -296,25 +311,6 @@ export default function page(string) {
     setQuestions(tempQuestions);
   };
 
-  // const handleTextChange = (e) => {
-  //   let inputText = e.target.value;
-  //   if (filter.isProfane(inputText)) {
-  //     setPopup({
-  //       show: true,
-  //       type: 'warning',
-  //       message: 'Please refrain from using offensive language.',
-  //       timeout: 3000,
-  //     });
-  //     inputText = inputText
-  //       .split(/\s+/)
-  //       .map((word) => (filter.isProfane(word) ? '' : word))
-  //       .join(' ')
-  //       .trim();
-  //   }
-  //   if (inputText.length <= maxChars) {
-  //     setReview(inputText);
-  //   }
-  // };
   const submitRating = async () => {
     if(!token){
       router.push(`/`);
@@ -343,7 +339,10 @@ export default function page(string) {
         for_credit:questions[2].value=="on"?true:false,
         grade_received:gradeReceived?.label,
         comment:review,
-        tags:selectedTags});
+        tags:selectedTags,
+        courseCode:course.label,
+        // newCourse:newCourse
+      });
       console.log("response------: ",response)
       setSubmitLoader(false);
       if (response?.data?.message=="Rating created successfully")  {
@@ -368,12 +367,31 @@ export default function page(string) {
           timeout: 3000,
         });
 
-      }else {
+      } else if(e.status===500) {
+        setPopup({
+          show: true,
+          type: 'info',
+          message: 'Server Error',
+          timeout: 3000,
+        });
+      } else if(e.status=== 421) {
+        setPopup({
+          show: true,
+          type: 'info',
+          message: 'Unauthorized User',
+          timeout: 3000,
+        });
+      } else{
         console.error('Error', e.message);
       }
   }
-
   }
+
+  console.log("searched course: ",searchedCourse )
+  console.log("selected course ",course )
+  console.log("suggestions: ", suggestions )
+  console.log("new couse ",newCourse )
+
   return (
   <>{ Loading
      ?
@@ -382,18 +400,6 @@ export default function page(string) {
      <Formik
      initialValues={{ ratings, review: '', selectedTags: [], course: null, gradeReceived: null ,overallRating:0,difficulty}}
      validationSchema={validationSchema}
-    //  validate={(values) => {
-    //   // Pass the ratings as context
-    //   const schema = validationSchema;
-    //   try {
-    //     schema.validateSync(values, { context: { ratings } });
-    //   } catch (err) {
-    //     return err.inner.reduce((acc, curr) => {
-    //       acc[curr.path] = curr.message;
-    //       return acc;
-    //     }, {});
-    //   }
-    // }
     context={{ ratings }}
 
      onSubmit={()=>submitRating()}
@@ -422,7 +428,7 @@ export default function page(string) {
             </p>
             <div className="separator-x mb-60"></div>
             <div className="flex items-center mb-32 professor-mobile-results-selection  ">
-              <div style={{height:"60px"}}  className="relative sort-dropdown  full-width-responsive" ref={dropdownRef}>
+              {/* <div style={{height:"60px"}}  className="relative sort-dropdown  full-width-responsive" ref={dropdownRef}>
                 <div
                   onClick={() => setDropdownOpen(!DropdownOpen)
                   }
@@ -486,13 +492,128 @@ export default function page(string) {
               className="error-message"
               style={{ color: 'red' }}
             />
+              </div> */}
+              <div>
+                <div className='input-container'>
+              <input 
+              ref={inputRef}
+              className='rate-input'
+              value={searchedCourse}
+              onFocus={() => setIsFocused(true)} 
+              placeholder={course?.label ?course.label:'Select Course'}
+              onChange={(event)=>{
+                // setCreateCourse(false)
+                if(event.target.value.length>0){
+                  setIsFocused(true)
+                }
+                console.log(" searched course event : ",event.target.value)
+                setSearchedCourse(event.target.value)
+
+                let recomendation = options.filter((option) => option.label.toLowerCase().includes(event.target.value.toLowerCase()))
+
+                console.log("recomendation: ",recomendation)
+                setSuggestions(recomendation)
+
+              }}
+              onKeyDown={(event)=>{
+                if (event.key === 'Enter') {
+                  event.preventDefault(); 
+                 let is_Selected__From_Options= options.filter(option => option.label.toLowerCase() === event.target.value.toLowerCase())
+                 let From_Suggestion = suggestions.filter(sugestion => sugestion.label.toLowerCase().includes(event.target.value.toLowerCase()))
+                 if( is_Selected__From_Options.length > 0 ){
+                  setFieldValue('course', is_Selected__From_Options[0]);
+                  setCourse( is_Selected__From_Options[0]);
+                  setSearchedCourse("")
+                  setIsFocused(false)
+                 } else  if( From_Suggestion.length > 0 ){
+                  setFieldValue('course', From_Suggestion[0]);
+                    setCourse(From_Suggestion[0]);
+                  setSearchedCourse("")
+                  setIsFocused(false)
+                 } else {
+                  setNewCourse(true);
+                  setCourse({ value: options.length, label: searchedCourse, id: 0 });
+                  setFieldValue('course', { value: options.length, label: searchedCourse, id: 0 });
+                  setSuggestions([])
+                  setSearchedCourse("")
+                  setIsFocused(false)
+                 }
+                }
+              }}
+              />
+               <span className='dropdown-icon' >{isFocused ? <IoIosArrowDown size={18} /> : <IoIosArrowUp size={18} />}  </span>
               </div>
 
+{isFocused && (
+  <div className='rate-suggesstion'>
+    {searchedCourse.length > 0 ? (
+      suggestions.length > 0 ? (
+        suggestions.map((suggestion, index) => (
+          <div 
+            key={index} 
+            className={`selected ${suggestion.label === course.label ? 'bg-E6F1F6' : ''}`} 
+            onMouseDown={() => {
+              setFieldValue('course', suggestion);
+              setSearchedCourse(suggestion.label);
+              setCourse(suggestion);
+              setIsFocused(false);
+            setSearchedCourse("")
+            
+            }}
+          >
+            {suggestion.label}
+          </div>
+        ))
+      ) : (
+        <div 
+          className={`selected ${searchedCourse === course.label ? 'bg-E6F1F6' : ''}`} 
+          onMouseDown={(event) => {
+            event.stopPropagation();
+            setNewCourse(true);
+            setCourse({ value: options.length, label: searchedCourse, id: 0 });
+            setFieldValue('course', { value: options.length, label: searchedCourse, id: 0 });
+            setIsFocused(false);
+            setSearchedCourse("")
+            
+          }}
+        >
+          Create "{searchedCourse || course.label}"
+        </div>
+      )
+    ) : (
+     options.length > 0 ?
+      options.map((option, index) => (
+        <div 
+          key={index} 
+          className={`selected ${option.label === course.label ? 'bg-E6F1F6' : ''}`} 
+          onMouseDown={() => {
+            setFieldValue('course', option);
+            setSearchedCourse(option.label);
+            setCourse(option);
+            setSuggestions([option])
+            setIsFocused(false);
+            setSearchedCourse("")
+          }}
+        >
+          {option.label}
+        </div>
+      ))
+      :
+      <div >  </div>
+    )}
+  </div>
+)}
 
-
+               <ErrorMessage
+              name="course"
+              component="div"
+              className="error-message"
+              style={{ color: 'red' }}
+            />
+            </div>
               <label className="flex items-center rating-is-online-checkbox">
                 <input
-                  className="ml-18"
+                  className="ml-24"
                   type="checkbox"
                   checked={isOnline}
                   onChange={(event) => {
@@ -504,43 +625,6 @@ export default function page(string) {
                 </span>
               </label>
             </div>
-            {/* <div className="full-width border-color-D9D9D9 border-radius-8 pa-16 mb-24 ">
-              {ratings.map((item, index) => (
-                <div
-                  key={'ratings-rates-' + index}
-                  className={`full-width flex justify-between items-center professor-mobile-results-selection mobile-mb-20 ${
-                    index < ratings.length - 1 ? 'mb-36' : ''
-                  }`}
-                >
-                  <p className="text-weight-600 text-18 text-1F1F1F mobile-mb-8">
-                    {item.label}
-                  </p>
-                  <div className="flex items-center ">
-                    {[1, 2, 3, 4, 5].map((number, count) => (
-                      <div
-                        onClick={() => {
-                          let tempRating = [...ratings];
-                          tempRating[index].value = number;
-                          setRatings(tempRating);
-                        }}
-                        key={index + '-rate-' + count}
-                        className={`flex items-center cursor-pointer justify-center border-radius-4 ${
-                          count < 4 ? 'mr-6' : ''
-                        } ${
-                          item.value >= number
-                            ? 'bg-763FF9 text-ffffff'
-                            : 'bg-F0F0F0 text-8C8C8C'
-                        }`}
-                        style={{ width: '42px', height: '42px' }}
-                      >
-                        {number}
-                      </div>
-                    ))}
-                  </div>
-                  {/* <ErrorMessage name={`ratings.${item.label}`} component="div" className="error-message" /> *}
-                </div>
-              ))}
-            </div> */}
             <div className="full-width border-color-D9D9D9 border-radius-8 pa-24 mb-24">
             <div
                 key={'overall'}
@@ -557,9 +641,6 @@ export default function page(string) {
                       onClick={() => {
                         setFieldValue(`overallRating`, number);
                         setOverallRating(number);
-                          // let tempRating = [...ratings];
-                          // tempRating[index].value = number;
-                          // setRatings(tempRating);
                       }}
                       key={'-overallrate-' + count}
                       className={`flex items-center cursor-pointer justify-center border-radius-4  ${
@@ -568,7 +649,6 @@ export default function page(string) {
                       style={{ width: '42px', height: '42px' }}
                     >
                       <Image width={30} height={30} src={overallRating>=number ? '/Star.png' : '/unstar.png'} alt="" />
-                  {/* <StarRating rating={overallRating >= number?100:0} /> {number} */}
                    </div>
                   ))}
                 </div>
@@ -793,36 +873,7 @@ export default function page(string) {
             </div>
 
             {/* Add tags */}
-            {/* <div className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
-              <p className="text-weight-600 text-18 text-1F1F1F mb-32">
-                Select up to 3 tags
-              </p>
-              <div className="row full-width">
-                <div className="col-12 ">
-                  <div className="flex flex-wrap">
-                    {tags.map((tag, index) => (
-                      <div
-                        key={tag + '-' + index}
-                        className={`fit-content ${tagExists(tag) ? "bg-763FF9 text-ffffff" :"bg-F0F0F0 text-595959"}  text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-16`}
-                        onClick={()=>{
-                          setSelectedTags((prev)=>{
-                            let check =tagExists(tag);
-                            if(check){
-                              return prev.filter((prevtag)=> prevtag!=tag)
-                            } else {
-                            return [...prev,tag]
-                            }
-                          })
-                        }}
-                     >
-                        {tag}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div> */}
-                      <div style={{height:"170px"}} className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
+            <div style={{height:"170px"}} className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
             <p className="text-weight-600 text-18 text-1F1F1F mb-32">Select up to 3 tags</p>
             <div className="row full-width">
               <div className="col-12 ">
@@ -899,12 +950,6 @@ export default function page(string) {
                   </ul>
                 </div>
               </div>
-              {/* <textarea
-                value={review}
-                onChange={handleTextChange}
-                placeholder="Write your review"
-                className="pa-10 border-color-D9D9D9 text-434343 mb-8 full-width border-radius-8 text-area-min-height"
-              ></textarea> */}
               <div style={{height:"150px"}} >
             <Field
               as="textarea"
@@ -981,7 +1026,6 @@ export default function page(string) {
                 disabled={true}
               >
                 <span className="submitloader"></span>
-                {/* <span className="ms-2">Submitting</span> */}
               </button>
                 :
                 <button

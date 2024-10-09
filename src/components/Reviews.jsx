@@ -126,7 +126,7 @@ export default function Reviews({reviews,professorId,updateRatings}) {
         </div>
         <div className="flex-1 ml-12  border-radius-10 pa-20 bg-E6F1F6">
           <div className="flex justify-between mb-20">
-            <p className="text-16 text-141414 text-weight-700">{review?.course_name !== 'N/A'?review?.course_name:''}</p>
+            <p className="text-16 text-141414 text-weight-700">{review?.course_name !== 'N/A'?review?.course_name.toUpperCase():''}</p>
             <p className="text-14 text-141414 text-weight-600">{convertDate(review?.created_at)}</p>
           </div>
           <p className="text-141414 text-16 text-weight-400 mb-20">{review?.comment}</p>
