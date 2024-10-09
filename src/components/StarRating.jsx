@@ -11,7 +11,7 @@ const StarRating = ({ rating }) => {
 
   const getHalfStarWidth = (value) => {
     if ((value - rating)* 100 < 100 ) {
-      return 100-((value - rating)* 100) +'%'
+      return 95-((value - rating)* 100) +'%'
     }
     return 0
   };
@@ -20,17 +20,29 @@ const StarRating = ({ rating }) => {
     <div className="star-rating">
       <div className="stars">
         {[1, 2, 3, 4, 5].map((value) => (
-          <span
-            key={value}
-            className={`star ${getStarClass(value)}`}
-            style={
-              getStarClass(value) === 'half'
-                ? { '--half-width': getHalfStarWidth(value) }
-                : {}
-            }
-          >
+            <div key={value} className="position-relative">
+              <span
+                  key={value}
+                  className={`star z-2 ${getStarClass(value)}`}
+                  style={
+                    getStarClass(value) === 'half'
+                        ? {'--half-width': getHalfStarWidth(value)}
+                        : {}
+                  }
+              >
             &#9733;
           </span>
+              <div className="position-absolute" style={{top:'0',zIndex:'1'}}>
+                <span
+                    key={value}
+                    className={`star start-content`}
+                >
+                &#9733;
+              </span>
+              </div>
+
+            </div>
+
         ))}
       </div>
     </div>

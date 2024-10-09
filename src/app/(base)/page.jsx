@@ -95,6 +95,11 @@ export default function Page() {
       router.push('/sign-up');
     }
   }
+  useEffect(() => {
+    console.log('ewewewewewee')
+    setSearch('');
+    setRecommendation([]);
+  }, [type]);
 
   return (<>
       <main className={styles.page}>
@@ -112,6 +117,7 @@ export default function Page() {
                   />
                     <AutoComplete
                       autoFocus={true}
+                      value={search}
                       popupClassName=""
                       // popupMatchSelectWidth={500}
                       onSelect={function(value){
@@ -132,12 +138,8 @@ export default function Page() {
                     if(searchCheck !== ''){
                       setSearchCheck('')
                     }
-                    // getRecommendations(event.target.value)
-                    console.log("inside----- type: ",type)
                     debouncedGetRecommendations(event.target.value,type)
-                    // debouncedGetRecommendations(getRecommendations(event.target.value),2000)
-                    // setTimeout(()=>getRecommendations(event.target.value),2000);
-                    }} className="px-20 search-input-field" placeholder={type === 'name'?'Search professor with name':'Search for professors by university.'}
+                    }} className="px-20 search-input-field" placeholder={type === 'name'?'Search professor by name':'Search for professors by university'}
                     onKeyDown={(event)=>{
                       if (event.key === 'Enter') {
                         searchProfessor()

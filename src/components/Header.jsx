@@ -118,6 +118,14 @@ export default function Header() {
       }, 200);
     }
   };
+  useEffect(() => {
+    setType(searchParams.get('searchBy')|| 'name')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams.get('searchBy')])
+  useEffect(() => {
+    setSearch(searchParams.get('search'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams.get('search')])
 
   useEffect(() => {
     if(window.innerWidth <= 576){
@@ -128,11 +136,11 @@ export default function Header() {
         document.body.style.overflow = 'auto'
       }
     }
-
-
   }, [sidebarOpen])
-
-
+  useEffect(() => {
+    setSearch('');
+    setRecommendation([]);
+  }, [type]);
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -153,7 +161,7 @@ export default function Header() {
           <div>
             {isDomLoaded &&(<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px' }}>
               <CustomDropdown
-                selectedValue={searchParams.get('searchBy') || type}
+                selectedValue={type}
                 onSelect={setType}
                 placeholder="Select"
                 height={50}
@@ -167,9 +175,9 @@ export default function Header() {
                 {/* <span style={{position: "absolute", top: "30px"}} className="text-12">search</span> */}
 
                 <AutoComplete
-                  autoFocus={true}
+                  autoFocus={false}
                   popupClassName=""
-                  defaultValue={searchParams.get('search') || ''}
+                  value={search}
                   onSelect={function(value) {
                     if (value) {
                       if (searchCheck !== '') {
@@ -196,7 +204,7 @@ export default function Header() {
 
                   }
                   }
-                  placeholder={type === 'name' ? 'Search professor with name' : 'Search for professors by university.'}
+                  placeholder={type === 'name' ? 'Search professor by name' : 'Search for professors by university'}
                   onKeyDown={(event) => {
                     console.log('envent occurred');
                     if (event.key === 'Enter') {

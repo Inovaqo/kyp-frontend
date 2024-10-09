@@ -204,11 +204,11 @@ export default function page(){
             </div>
 
             <div className="flex-1 ml-30 mobil-ml-none mobile-mt-28">
-              <RatingBar rating={5} reviews={100} reviewsGot={!professorDetails.star_distribution.five_star ? 0.00 : Math.floor(Number(professorDetails.star_distribution.five_star))} text={'Awesome'} />
-              <RatingBar rating={4} reviews={100} reviewsGot={!professorDetails.star_distribution.four_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.four_star))} text={'Great'} />
-              <RatingBar rating={3} reviews={100} reviewsGot={!professorDetails.star_distribution.three_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.three_star))} text={'Good'} />
-              <RatingBar rating={2} reviews={100} reviewsGot={!professorDetails.star_distribution.two_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.two_star))} text={'OK'} />
-              <RatingBar rating={1} reviews={100} reviewsGot={!professorDetails.star_distribution.one_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.one_star))} text={'Awful'} />
+              <RatingBar rating={5} progress={!professorDetails.star_distribution.five_star ? 0.00 : Math.round(Number(professorDetails.star_distribution.five_star))} text={'Awesome'} />
+              <RatingBar rating={4} progress={!professorDetails.star_distribution.four_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.four_star))} text={'Great'} />
+              <RatingBar rating={3} progress={!professorDetails.star_distribution.three_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.three_star))} text={'Good'} />
+              <RatingBar rating={2} progress={!professorDetails.star_distribution.two_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.two_star))} text={'OK'} />
+              <RatingBar rating={1} progress={!professorDetails.star_distribution.one_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.one_star))} text={'Awful'} />
             </div>
           </div>
           <div className="d-none d-xl-block">
