@@ -584,7 +584,7 @@ export default function page(string) {
             
           }}
         >
-          Create "{searchedCourse || course.label}"
+          Create &#34;{searchedCourse || course.label}&#34;
         </div>
       )
     ) : (
