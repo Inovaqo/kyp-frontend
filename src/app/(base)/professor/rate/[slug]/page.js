@@ -508,11 +508,18 @@ export default function page(string) {
                 }
                 console.log(" searched course event : ",event.target.value)
                 setSearchedCourse(event.target.value)
+              let recommendation = options
+                .filter((option) => option.label.toLowerCase().includes(event.target.value.toLowerCase()))
+                .sort((a, b) => {
+                  let aStartsWith = a.label.toLowerCase().startsWith(event.target.value.toLowerCase());
+                  let bStartsWith = b.label.toLowerCase().startsWith(event.target.value.toLowerCase());
+                  if (aStartsWith && !bStartsWith) return -1;
+                  if (!aStartsWith && bStartsWith) return 1;
+                  return 0;
+                });
 
-                let recomendation = options.filter((option) => option.label.toLowerCase().includes(event.target.value.toLowerCase()))
-
-                console.log("recomendation: ",recomendation)
-                setSuggestions(recomendation)
+                console.log("recommendation: ",recommendation)
+                setSuggestions(recommendation)
 
               }}
               onKeyDown={(event)=>{
