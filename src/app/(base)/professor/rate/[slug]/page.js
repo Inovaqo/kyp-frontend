@@ -118,7 +118,7 @@ export default function page(string) {
     .required('Review is required'),
     overallRating:Yup.number().min(1,'Overall Rating is required'),
     selectedTags: Yup.array()
-    .min(1, 'Please select at least one tag.')
+    .min(1, 'Select at least one tag.')
     .max(3, 'You can select up to 3 tags only.'),
     course: Yup.object()
     .shape({
@@ -235,7 +235,7 @@ export default function page(string) {
         setOption((prev)=>[...prev,{
           value:index,
           label:course.course_code,
-          id:course.id
+          id:course.course_id
         }])
       })
       setLoading(false)
