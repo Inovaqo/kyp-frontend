@@ -199,7 +199,7 @@ export default function page(){
             <div className="bg-FFEBCC flex column items-center justify-center star-rating-full-width"
                  style={{ width: '180px', height: '180px' }}>
               <p className="text-weight-600 text-40 text-1F1F1F">{professorDetails?.overallRating.toFixed(1)}</p>
-              <StarRating rating={4} />
+              <StarRating rating={professorDetails?.overallRating.toFixed(1)} />
               <p className="text-weight-500 text-14 text-1F1F1F">Quality Rating</p>
             </div>
 

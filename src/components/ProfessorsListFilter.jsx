@@ -46,11 +46,11 @@ export default function ProfessorsListFilter(){
     
     setProfessors(updatedProfessors);
   }
-  const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false)=>{
+  const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false,option_selected=false)=>{
     // if(text){
       try{
        showMore? setShowMoreLoader(true): setLoading(true)
-        await BaseApi.getProfessors({sortField:sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page})
+        await BaseApi.getProfessors({sortField:option_selected ? searchBy : sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page})
           .then((response)=>{
             if(concatCheck){
               let tempProfessors = professors;
@@ -168,7 +168,7 @@ export default function ProfessorsListFilter(){
                   onClick={() => {
                     setSort(option.value);
                     setDropdownOpen(false);
-                    getProfessors(type,search,false,1)
+                    getProfessors(option.value,search,false,1,false,true)
                   }}
                   style={{
                     cursor: 'pointer',

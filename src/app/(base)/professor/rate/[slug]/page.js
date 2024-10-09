@@ -320,11 +320,11 @@ export default function page(string) {
       console.log("ofensive ",checkAusiveWords)
       if(!checkAusiveWords){
       setSubmitLoader(true);
-      const professorID=Number(slug)
-      const studentId=Number(userInfo[0].id)
+      // const professorID=Number(slug)
+      // const studentId=Number(userInfo[0].id)
       let response =  await BaseApi.postRating({
-        studentId: studentId,
-        professorId:professorID,
+        studentId: Number(userInfo[0].id),
+        professorId:Number(slug),
         courseId:course.id,
         overallRating:overallRating,
         course_difficulty:difficulty[0].value,
