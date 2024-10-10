@@ -12,7 +12,8 @@ import { MdArrowDropDown } from "react-icons/md";
 
 export default function Profile({userInfo,setUserProfileInfo}) {
   let token = getToken();
-  const router = useRouter
+  const router = useRouter;
+
   const [popup, setPopup] = useState({show:false,type:'',message:'',timeout:0});
   const validationUserInfo = Yup.object({
     firstName: Yup.string()
@@ -24,6 +25,8 @@ export default function Profile({userInfo,setUserProfileInfo}) {
       .required('Required'),
     university: Yup.string()
       .required('Required'),
+    field: Yup.string()
+    .required('Required'),
   });
   const validationPasswords = Yup.object({
     currentPassword: Yup.string()
@@ -41,6 +44,13 @@ export default function Profile({userInfo,setUserProfileInfo}) {
   const [DropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  const [department,setDeparment] = useState([])
+  const [checkInstituteSelected,setCheckInstituteSelected] = useState(false)
+  const [selectedDepartment,setSelectedDepartment] = useState({});
+  const [departmentLoader,setDeparmentLoader] = useState(false);
+  const [departmentDropdownOpen, setDepartmentDropdownOpen] = useState(false);
+  const departmentdropdownRef = useRef(null);
+
   // const [image, setImage] = useState(userInfo.image_url?userInfo.image_url:"/user/userImage.png");
   const [image, setImage] = useState(userInfo.image_url?userInfo.image_url:'/student.png');
 
@@ -50,13 +60,40 @@ export default function Profile({userInfo,setUserProfileInfo}) {
 
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
+  useEffect(()=>{
+    if(selectedInstitute?.label){
+      setCheckInstituteSelected(false)
+      getDepartments()
+    }
+  },[selectedInstitute])
+
+  const getDepartments = async () =>{
+    try{
+      setDeparmentLoader(true);
+      let department = await AuthApi.getDepartment(selectedInstitute.label);
+      if(department.data){
+        let selecteddepartment = department.data.filter(depart => depart.label === userInfo.department)
+        if(selecteddepartment.length===1){
+          setSelectedDepartment(selecteddepartment[0])
+        }
+      setDeparment(department.data)
+      }
+      setDeparmentLoader(false);
+    } catch (e){
+      setDeparmentLoader(false);
+      console.log("error: ",e)
+      setDeparment([])
+      setPopup({show:true,type:'error',message:error.message,timeout:3000});
+    }
+  }
+
   const handleSubmit = async (values) => {
     try{
       setSaveProfileLoader(true)
-      await BaseApi.updateProfile({first_name:values.firstName,last_name:values.lastName,email:values.email,institute_name:values.university,image_url:image}
+      await BaseApi.updateProfile({first_name:values.firstName,last_name:values.lastName,email:values.email,institute_name:values.university,image_url:image,department:values.field}
       ).then(() => {
-  setUserProfileInfo({first_name:values.firstName,last_name:values.lastName,email:values.email,institute:{name:values.university},image_url:image})
-  setUserInfo(JSON.stringify({first_name:values.firstName,last_name:values.lastName,email:values.email,institute:{name:values.university},image_url:image}))
+  setUserProfileInfo({first_name:values.firstName,last_name:values.lastName,email:values.email,institute:{name:values.university},image_url:image,department:values.field})
+  setUserInfo(JSON.stringify({first_name:values.firstName,last_name:values.lastName,email:values.email,institute:{name:values.university},image_url:image,department:values.field}))
   setSaveProfileLoader(false)
   setPopup({show:true,type:'success',message:'Saved Successfully',timeout:3000});
       });
@@ -93,28 +130,28 @@ export default function Profile({userInfo,setUserProfileInfo}) {
 
   };
 
-    const handleImageUpload = async (event) => {
-      setImageLoader(true)
-      const file = event.target.files[0];
-      const s3 =  new AWS.S3({
-        accessKeyId:"AKIA6ODU2336OH4TKAZM",
-        secretAccessKey:"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",
-        region: 'ap-south-1',
-    });
+  //   const handleImageUpload = async (event) => {
+  //     setImageLoader(true)
+  //     const file = event.target.files[0];
+  //     const s3 =  new AWS.S3({
+  //       accessKeyId:"AKIA6ODU2336OH4TKAZM",
+  //       secretAccessKey:"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",
+  //       region: 'ap-south-1',
+  //   });
 
-    const params = {
-        Bucket: 'reactkypprofilepics',
-        Key: file.name,
-        Body: file,
-        ContentType: file.type,
-    };
+  //   const params = {
+  //       Bucket: 'reactkypprofilepics',
+  //       Key: file.name,
+  //       Body: file,
+  //       ContentType: file.type,
+  //   };
 
-    const upload = s3.upload(params);
-    const data = await upload.promise();
-    console.log("DA?TA______",data)
-    setImage(data.Location)
-    setImageLoader(false)
-  }
+  //   const upload = s3.upload(params);
+  //   const data = await upload.promise();
+  //   console.log("DA?TA______",data)
+  //   setImage(data.Location)
+  //   setImageLoader(false)
+  // }
 
   const getAllInstitute = async () =>{
     try{
@@ -148,6 +185,21 @@ export default function Profile({userInfo,setUserProfileInfo}) {
         router.push('/')
       }
       getAllInstitute();
+
+        const handleClickOutside = (event) => {
+          if (departmentdropdownRef.current && !departmentdropdownRef.current.contains(event.target)) {
+            setDepartmentDropdownOpen(false);
+          }
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownOpen(false);
+          }
+        };
+    
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      
     },[])
 
 
@@ -157,7 +209,7 @@ export default function Profile({userInfo,setUserProfileInfo}) {
         <div className="mobile-mt-28 flex-1">
       <p className="text-weight-600 text-24 text-1F1F1F mb-32">Account settings</p>
           <Formik
-            initialValues={{ firstName:userInfo?.first_name, lastName: userInfo?.last_name, email: userInfo?.email,university:userInfo?.institute?.name }}
+            initialValues={{ firstName:userInfo?.first_name, lastName: userInfo?.last_name, email: userInfo?.email,university:userInfo?.institute?.name,field:userInfo?.department }}
             validationSchema={validationUserInfo}
             onSubmit={handleSubmit}
           >
@@ -186,24 +238,10 @@ export default function Profile({userInfo,setUserProfileInfo}) {
                     </div>
 
                   </div>
-                  <div className=" col-12 mobile-padding-right-0 ">
+                  <div className="mb-20 col-12 mobile-padding-right-0 ">
                     <div className="row ">
-                    <div className="col-12 mb-20 mobile-padding-right-0 ">
-                    <label className="text-141414 text-weight-400 text-14 mb-2">Email</label>
-                    <Field style={{ height: '46px' }} type="text" name="email"
-                           className="px-10 full-width bg-transparent text-14 text-394560 border-color-D9D9D9 border-radius-8"
-                           placeholder="Enter Email"
-                    >
-                    </Field>
-                    <ErrorMessage className="error-message" name="email" component="div" />
-                  </div>
-                  <div className="col-12 mb-32 mobile-padding-right-0 " ref={dropdownRef}>
+                      <div className="col-md-12 col-lg-6  mobile-padding-right-0  "ref={dropdownRef}>
                     <label className="text-141414 text-weight-400 text-14 mb-2">University</label>
-                    {/* <Field style={{ height: '46px' }} type="text" name="university"
-                           className="px-10 full-width bg-transparent text-14 text-394560 border-color-D9D9D9 border-radius-8"
-                           placeholder="Enter University"
-                    >
-                    </Field> */}
                     <div
                       onClick={() => setDropdownOpen(!DropdownOpen)
                       }
@@ -231,7 +269,7 @@ export default function Profile({userInfo,setUserProfileInfo}) {
                     style={{
                       position: 'absolute',
                       marginTop: '4px',
-                      width: '45%',
+                      width: '22%',
                       borderRadius: '12px',
                       border: '1px solid #D9D9D9',
                       backgroundColor: '#ffffff',
@@ -260,6 +298,90 @@ export default function Profile({userInfo,setUserProfileInfo}) {
                   </div>
                 )}
                     <ErrorMessage className="error-message" name="university" component="div" />
+                      </div>
+                      <div className="col-md-12 col-lg-6 mt-md-2 mt-lg-0 mobile-padding-right-0 " ref={departmentdropdownRef} >
+              <label className="text-141414 text-weight-400 text-14 mb-2">Field of study</label>
+               <div
+                  onClick={() => {
+                    if(department.length<0){
+                      setDepartmentDropdownOpen(false)
+                    }
+                    if(!selectedInstitute?.label){
+                      setCheckInstituteSelected(true)
+                    } else if (selectedInstitute?.label && department.length>0) {
+                    setDepartmentDropdownOpen(!departmentDropdownOpen)
+                    }
+                  }
+                  }
+                  style={{
+                    height: '46px',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                  className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive  ${department.length>0 ? 'cursor-pointer' : ''}`}
+                >
+                  <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
+                     <div> {department?.find((option) => option === selectedDepartment)?.label||
+                      'Select Field of study'}
+                      </div>
+                      <div style={{display:"flex",justifyContent:"center", alignItems:"center"}} >
+                      {
+                        departmentLoader ? <span className='fieldloader' ></span> : <MdArrowDropDown  size={20} />
+                      }
+                      </div>
+                  </div>
+                </div>
+                {departmentDropdownOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  marginTop: '4px',
+                  width: '22%',
+                  borderRadius: '12px',
+                  border: '1px solid #D9D9D9',
+                  backgroundColor: '#ffffff',
+                  zIndex: 10,
+                  maxHeight: '200px',
+                  overflow:"auto",
+                }}
+                className="px-10 text-14 border-color-D9D9D9"
+              >
+                {department?.map((option) => (
+                  <div
+                    key={option.value}
+                    onClick={() => {
+                      setFieldValue('field', option.label);
+                      setSelectedDepartment(option);
+                      setDepartmentDropdownOpen(false);
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    className="px-10 py-12"
+                  >
+                    {option.label}
+                  </div>
+                ))}
+              </div>
+            )}
+            { checkInstituteSelected && <div className='text-warning text-12' style={{height:'0'}}>First, select a University.</div>}
+              <ErrorMessage name="field" component="div" />
+                      </div>
+                    </div>
+                 </div>
+
+                 <div className=" col-12 mobile-padding-right-0 ">
+                    <div className="row ">
+                    <div className="col-12 mb-20 mobile-padding-right-0 ">
+                    <label className="text-141414 text-weight-400 text-14 mb-2">Email</label>
+                    <Field style={{ height: '46px' }} type="text" name="email"
+                           className="px-10 full-width bg-transparent text-14 text-394560 border-color-D9D9D9 border-radius-8"
+                           placeholder="Enter Email"
+                    >
+                    </Field>
+                    <ErrorMessage className="error-message" name="email" component="div" />
                   </div>
                     </div>
                   </div>
