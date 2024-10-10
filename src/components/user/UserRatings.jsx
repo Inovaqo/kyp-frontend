@@ -23,6 +23,15 @@ export default function UserRatings() {
       setSearchCheck('')
     }
   }
+  const getRatingsHelper = ()=>{
+    if(search.trim() === ''){
+      setSearch('');
+      setSearchCheck('Search field can not be empty')
+    }else{
+      searchProfessor();
+      getRatings()
+    }
+  }
   const getRatings = async (searchBy=type,text=search,seeMore= false,page=1,showMore=false)=>{
     try{
       showMore? setShowMoreLoader(true): setLoading(true)
@@ -85,19 +94,17 @@ export default function UserRatings() {
               setSearchCheck('')
             }
           }} className="px-20 search-input-field rating-input mobile-border-right "
-                 placeholder={type === 'name' ? 'Search professor with name' : 'Search for professors by university.'}
+                 placeholder={type === 'name' ? 'Search professor by name' : 'Search for professors by university.'}
                  onKeyDown={(event)=>{
                   if (event.key === 'Enter') {
-                    searchProfessor()
-                    getRatings()
+                    getRatingsHelper()
                   }
                 }}
                 />
           </div>
           <div
             onClick={()=>{
-              searchProfessor()
-              getRatings()
+              getRatingsHelper()
             }}
             style={{
               height: '72px',

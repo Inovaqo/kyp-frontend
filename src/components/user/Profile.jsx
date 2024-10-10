@@ -281,7 +281,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
   return (
     <>
       <div className="mt-30">
-        <div className="flex mb-60 professor-profile-mobile-center">
+        <div className=" mb-60 professor-profile-mobile-center">
           <div className="row">
             <div className="col-md-8 col-12">
               <div className="mobile-mt-28 flex-1">

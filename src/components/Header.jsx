@@ -69,7 +69,7 @@ export default function Header() {
 
 
   const searchProfessor= (clear=false)=>{
-    if(search === ''){
+    if(search.trim() === ''){
         setSearchCheck('Search field can not be empty')
     } else{
       setSearchCheck('')
@@ -215,8 +215,9 @@ export default function Header() {
                     if (searchCheck !== '') {
                       setSearchCheck('');
                     }
-                    debouncedGetRecommendations(text, type);
-
+                    if(text.trim() !== '') {
+                      debouncedGetRecommendations(text.trim(), type)
+                    }
                   }
                   }
                   placeholder={type === 'name' ? 'Search professor by name' : 'Search for professors by university'}

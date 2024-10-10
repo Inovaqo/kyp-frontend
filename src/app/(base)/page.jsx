@@ -83,7 +83,8 @@ export default function Page() {
   }, []);
 
   const searchProfessor= ()=>{
-    if(search === ''){
+    if(search.trim() === ''){
+      setSearch('')
       setSearchCheck('Search field can not be empty')
     }else{
       setSearchCheck('')
@@ -160,8 +161,10 @@ export default function Page() {
                       setSearchCheck('')
                     }
                     setNotFound(false)
-                    debouncedGetRecommendations(event.target.value,type)
-                    }} 
+                    if(event.target.value.trim() !== ''){
+                      debouncedGetRecommendations(event.target.value.trim(),type)
+                    }
+                    }}
                     className="px-20 search-input-field mobile-placeholder-font" placeholder={type === 'name'?'Search for a professor by name.':'Search for professors by university.'}
                     onKeyDown={(event)=>{
                       if (event.key === 'Enter') {
