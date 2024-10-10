@@ -951,6 +951,9 @@ p {
 }
 
 @media (max-width: 768px) {
+  .mobile-mt-60{
+    margin-top: 60px;
+  }
   .mobile-border-right {
     border-right: 1px solid #d9d9d9;
   }
