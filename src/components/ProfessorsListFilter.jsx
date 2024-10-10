@@ -139,6 +139,7 @@ export default function ProfessorsListFilter(){
               backgroundColor: '#ffffff',
               cursor: 'pointer',
               display: 'flex',
+              justifyContent: 'center',
               alignItems: 'center',
 
             }}
@@ -152,7 +153,7 @@ export default function ProfessorsListFilter(){
               style={{
                 position: 'absolute',
                 marginTop:'4px',
-                width: '200px',
+                width: '156px',
                 borderRadius: '12px',
                 border: '1px solid #D9D9D9',
                 backgroundColor: '#ffffff',
@@ -160,7 +161,7 @@ export default function ProfessorsListFilter(){
                 maxHeight: '200px',
 
               }}
-              className="px-10 border-color-D9D9D9"
+              className="px-10  border-color-D9D9D9"
             >
               {options.map(option => (
                 <div

@@ -37,11 +37,12 @@ const CustomDropdown = ({  selectedValue, onSelect, placeholder,height=72,border
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: "space-between",
           borderRight: (borderRightNull && "none"),
         }}
-        className="px-20 border-color-D9D9D9  mobile-px-10 mobile-width-dropdown"
+        className="px-20 border-color-D9D9D9  mobile-px-6 mobile-width-dropdown"
       >
-        <p className='text-18 mobile-text-13'> {options.find(option => option.value === selectedValue)?.label || placeholder}</p>
+        <p className='text-18 mobile-text-11'> {options.find(option => option.value === selectedValue)?.label || placeholder}</p>
         <Image style={{ marginLeft: '8px' }} height={10} width={10} src="/arrowicon.svg" alt="searchIcon" />
       </div>
       {isDropdownOpen && (
@@ -57,7 +58,7 @@ const CustomDropdown = ({  selectedValue, onSelect, placeholder,height=72,border
             maxHeight: '200px',
 
           }}
-          className="px-10 border-color-D9D9D9"
+          className="  border-color-D9D9D9 mobile-text-11 mobile-width-dropdown-92"
         >
          {options.map(option => (
             <div
@@ -71,7 +72,7 @@ const CustomDropdown = ({  selectedValue, onSelect, placeholder,height=72,border
                 cursor: 'pointer',
 
               }}
-              className="px-10 py-12"
+              className="px-10 py-8-mobile py-12 mobile-text-11"
             >
               {option.label}
             </div>

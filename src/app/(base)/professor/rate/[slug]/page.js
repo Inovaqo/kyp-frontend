@@ -493,7 +493,7 @@ export default function page(string) {
               style={{ color: 'red' }}
             />
               </div> */}
-              <div>
+              <div className='mobile-full-width'>
                 <div className='input-container'>
               <input 
               ref={inputRef}
@@ -552,6 +552,7 @@ export default function page(string) {
               </div>
 
 {isFocused && (
+  <div className="position-relative">
   <div className='rate-suggesstion'>
     {searchedCourse.length > 0 ? (
       suggestions.length > 0 ? (
@@ -570,6 +571,7 @@ export default function page(string) {
           >
             {suggestion.label}
           </div>
+         
         ))
       ) : (
         <div 
@@ -609,6 +611,7 @@ export default function page(string) {
       <div >  </div>
     )}
   </div>
+  </div>
 )}
 
                <ErrorMessage
@@ -635,13 +638,13 @@ export default function page(string) {
             <div className="full-width border-color-D9D9D9 border-radius-8 pa-24 mb-24">
             <div
                 key={'overall'}
-                style={{height:"50px"}}
-                className={`full-width flex justify-between items-center professor-mobile-results-selection mobile-mb-20`}
+                // style={{height:"50px"}}
+                className={`full-width flex justify-between items-center professor-mobile-results-selection`}
               >
-                <p style={{height:"50px"}} className="text-weight-600 text-20 text-1F1F1F mobile-mb-8">
+                <p  className="text-weight-600 text-20 text-1F1F1F mobile-mb-8">
                   Overall Rating
                 </p>
-                <div style={{height:"50px"}} >
+                <div  >
                 <div className="flex items-center">
                   {[1, 2, 3, 4, 5].map((number, count) => (
                     <div
@@ -672,15 +675,15 @@ export default function page(string) {
             {values.ratings.map((item, index) => (
               <div
                 key={'ratings-rates-' + index}
-                style={{height:"50px"}}
+                // style={{height:"50px"}}
                 className={`full-width flex justify-between items-center professor-mobile-results-selection mobile-mb-20 ${
                   index < values.ratings.length - 1 ? 'mb-36' : ''
                 }`}
               >
-                <p style={{height:"50px"}} className="text-weight-600 text-20 text-1F1F1F mobile-mb-8">
+                <p  className="text-weight-600 text-20 text-1F1F1F mobile-mb-8">
                   {item.label}
                 </p>
-                <div style={{height:"50px"}} >
+                <div  >
                 <div className="flex items-center">
                   {[1, 2, 3, 4, 5].map((number, count) => (
                     <div
@@ -719,15 +722,14 @@ export default function page(string) {
             {values.difficulty.map((item, index) => (
               <div
                 key={'difficulty-ratings-rates-' + index}
-                style={{height:"50px"}}
                 className={`full-width flex justify-between items-center professor-mobile-results-selection mobile-mb-20 ${
                   index < values.difficulty.length - 1 ? 'mb-36' : ''
                 }`}
               >
-                <p style={{height:"50px"}} className="text-weight-600 text-20 text-1F1F1F mobile-mb-8">
+                <p  className="text-weight-600 text-20 text-1F1F1F mobile-mb-8">
                   {item.label}
                 </p>
-                <div style={{height:"50px"}} >
+                <div  >
                 <div className="flex items-center">
                   {[1, 2, 3, 4, 5].map((number, count) => (
                     <div

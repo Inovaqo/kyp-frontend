@@ -122,7 +122,7 @@ export default function Page() {
               <div className="col-xl-6 col-lg-12">
                 <h1 className="text-70 text-ffffff text-weight-600 mb-32 ">Find Professors by Name and Institution</h1>
                 <p className="text-24 text-F1ECFE text-weight-400 mb-40 mobile-text-16">Evaluate Your Professors and Enhance the Academic Experience</p>
-                <div className="flex items-center" >
+                <div className="flex" >
                   <CustomDropdown
                     selectedValue={type}
                     onSelect={setType}
@@ -162,7 +162,7 @@ export default function Page() {
                     setNotFound(false)
                     debouncedGetRecommendations(event.target.value,type)
                     }} 
-                    className="px-20 search-input-field" placeholder={type === 'name'?'Search for a professor by name.':'Search for professors by university.'}
+                    className="px-20 search-input-field mobile-placeholder-font" placeholder={type === 'name'?'Search for a professor by name.':'Search for professors by university.'}
                     onKeyDown={(event)=>{
                       if (event.key === 'Enter') {
                         searchProfessor()

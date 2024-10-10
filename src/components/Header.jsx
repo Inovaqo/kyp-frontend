@@ -169,13 +169,14 @@ export default function Header() {
                 selectedValue={type}
                 onSelect={setType}
                 placeholder="Select"
-                height={50}
+                height={52}
                 borderRightNull={true}
+                
               />
               {/* <div style={{borderTop:"1px solid #D9D9D9", borderBottom:"1px solid #D9D9D9",display:"flex",alignItems:"center",width:"30px",height:"50px", paddingLeft:"10px"}}>
               <LuSearch size={20} />
               </div> */}
-              <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', minHeight: '50px' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems:"center",  position: 'relative', minHeight: '50px' }}>
 
                 {/* <span style={{position: "absolute", top: "30px"}} className="text-12">search</span> */}
 
@@ -202,9 +203,10 @@ export default function Header() {
                   }}
                   style={{
                     width: '446px',
-                    height: '50px'
+                    height: '52px'
                   }}
-                  className={searchCheck !== '' && 'emptysearch'}
+                  className={`header-autocomplete-size ${searchCheck !== '' && 'emptysearch'}`}
+
                   options={options}
                   onSearch={(text) => {
                     setNotFound(false)
@@ -227,12 +229,21 @@ export default function Header() {
                   onClear={() => searchProfessor(true)}
                 >
                 </AutoComplete>
+                <div
+                      style={{
+                        height: '52px',
+                        width: '50px',
+                        borderTopRightRadius: '12px',
+                        borderBottomRightRadius: '12px'
+                      }} className="bg-FFA337 flex items-center justify-center cursor-pointer width-header-search">
+                      <Image height={24} width={24} src="/searchIcon.svg" alt="searchIcon" />
+                    </div>
                 {/* {searchCheck !== '' &&(<span style={{color:"brown", position: "absolute", top: "48px"}} className="text-12">{searchCheck}</span>)} */}
               </div>
             </div>)}
           </div>
         }
-          <div className="ml-30">
+          <div className="ml-30 mobile-ml-15">
             {token && userInfo ? (
               <div className="profile-btn">
                 <div className="bg-763FF9 border-radius-100 flex items-center justify-center cursor-pointer"
