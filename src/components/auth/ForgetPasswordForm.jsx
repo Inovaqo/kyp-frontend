@@ -34,7 +34,7 @@ export default function ForgetPasswordForm() {
       setPopup({
         show: true,
         type: 'error',
-        message: 'Something went wrong. Please try again later.',
+        message: error.message,
         timeout: 3000,
       });
     }
