@@ -877,6 +877,9 @@ p {
   /* position: relative; */
   /* width: 400px; */
 }
+.ant-select-selection-placeholder{
+    color:#757575 !important;
+  }
 
 .dropdown-icon {
   margin-left: -30px;
@@ -947,6 +950,9 @@ p {
   }
   .header-autocomplete-size{
     width: 300px !important;
+  }
+  .ant-select-selection-placeholder{
+    color:#757575;
   }
 }
 

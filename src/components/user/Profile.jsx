@@ -340,7 +340,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                         <div className="mb-20 col-12 mobile-padding-right-0 ">
                           <div className="row ">
                             <div
-                              className="col-md-12 col-lg-6  mobile-padding-right-0  "
+                              className="col-md-12 col-lg-6 position-relative  mobile-padding-right-0  "
                               ref={dropdownRef}
                             >
                               <label className="text-141414 text-weight-400 text-14 mb-2">
@@ -387,12 +387,13 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   </div>
                                 </div>
                               </div>
+                              <div className="position-relative">
                               {DropdownOpen && (
                                 <div
                                   style={{
                                     position: "absolute",
                                     marginTop: "4px",
-                                    width: "22%",
+                                    width: "100%",
                                     borderRadius: "12px",
                                     border: "1px solid #D9D9D9",
                                     backgroundColor: "#ffffff",
@@ -423,14 +424,17 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   ))}
                                 </div>
                               )}
+                              </div>
                               <ErrorMessage
                                 className="error-message"
                                 name="university"
                                 component="div"
                               />
                             </div>
+
+
                             <div
-                              className="col-md-12 col-lg-6 mt-md-2 mt-lg-0 mobile-padding-right-0 "
+                              className="col-md-12 col-lg-6 mt-md-2 mt-lg-0 mobile-padding-right-0 mobile-mt-20"
                               ref={departmentdropdownRef}
                             >
                               <label className="text-141414 text-weight-400 text-14 mb-2">
@@ -492,12 +496,13 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   </div>
                                 </div>
                               </div>
+                              <div className="position-relative">
                               {departmentDropdownOpen && (
                                 <div
                                   style={{
                                     position: "absolute",
                                     marginTop: "4px",
-                                    width: "22%",
+                                    width: "100%",
                                     borderRadius: "12px",
                                     border: "1px solid #D9D9D9",
                                     backgroundColor: "#ffffff",
@@ -525,6 +530,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   ))}
                                 </div>
                               )}
+                              </div>
                               {checkInstituteSelected && (
                                 <div
                                   className="text-warning text-12"
