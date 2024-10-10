@@ -10,7 +10,7 @@ export default function page(){
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [ Loading,setLoading ] = useState(false);
+  const [ Loading,setLoading ] = useState(true);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [reviewDetails,setReviewDetails] = useState({})
   const updateRatings = (updatedReview, professorId) => {

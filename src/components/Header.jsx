@@ -21,14 +21,14 @@ export default function Header() {
   const [token, setToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [type, setType] = useState(searchParams.get('searchBy')||'name');
-  const [search, setSearch] = useState(searchParams.get('search')|| '');
+  const [type, setType] = useState('name');
+  const [search, setSearch] = useState('');
   const [searchCheck, setSearchCheck] = useState('');
   const [recommendation,setRecommendation]=useState([])
+  const [notFound,setNotFound] = useState(false)
   const getPanelValue = (searchText) =>
   !searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)];
   const [isDomLoaded, setIsDomLoaded] = useState(false);
-
 
   const debouncedGetRecommendations = useCallback(
     debounce(async (text,type) => {
@@ -39,16 +39,14 @@ export default function Header() {
   const mockVal = (str, repeat = 1) => ({
     value: str.repeat(repeat),
   });
-
   const getRecommendations = async (text,type) => {
-    console.log("inside-------",type)
       if(text){
         try{
          let response =  await BaseApi.getRecommendations({searchBy:type,search:text})
-             console.log("response on recommendation: ",response)
              setRecommendation(response.data)
         }catch(e){
           console.log("error on recommendation: ",e)
+          setNotFound(true);
           setRecommendation([])
         }
       }
@@ -71,7 +69,6 @@ export default function Header() {
 
 
   const searchProfessor= (clear=false)=>{
-
     if(search === ''){
         setSearchCheck('Search field can not be empty')
     } else{
@@ -95,9 +92,28 @@ export default function Header() {
     setIsDomLoaded(true);
   }, []);
 
+
+  useEffect(() => {
+      setType(searchParams.get('searchBy'))
+  }, [searchParams.get('searchBy')]);
+
+  useEffect(() => {
+      setSearch(searchParams.get('search'))
+  }, [searchParams.get('search')]);
+
+  useEffect(()=>{
+    if(search=== ''){
+      setRecommendation([])
+    }
+  },[search])
+
+  useEffect(()=>{
+      setSearch('');
+      setRecommendation([]);
+  },[type])
+
   useEffect(()=>{
     if(pathname.includes("search=")){
-      console.log("search---------",pathname.split("search=").index[1])
     }
   },[pathname])
 
@@ -118,14 +134,6 @@ export default function Header() {
       }, 200);
     }
   };
-  useEffect(() => {
-    setType(searchParams.get('searchBy')|| 'name')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.get('searchBy')])
-  useEffect(() => {
-    setSearch(searchParams.get('search'))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.get('search')])
 
   useEffect(() => {
     if(window.innerWidth <= 576){
@@ -137,10 +145,7 @@ export default function Header() {
       }
     }
   }, [sidebarOpen])
-  useEffect(() => {
-    setSearch('');
-    setRecommendation([]);
-  }, [type]);
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -175,9 +180,17 @@ export default function Header() {
                 {/* <span style={{position: "absolute", top: "30px"}} className="text-12">search</span> */}
 
                 <AutoComplete
-                  autoFocus={false}
+                 autoFocus={false}
+                  notFoundContent={
+                    notFound ? (
+                      <div style={{ color: '#FFCC00', fontSize:'18px', textAlign: 'center',fontStyle:"italic" }}>
+                         Not Found
+                      </div>
+                    ) : null
+                  }
                   popupClassName=""
                   value={search}
+                  // defaultValue={searchParams.get('search') || ''}
                   onSelect={function(value) {
                     if (value) {
                       if (searchCheck !== '') {
@@ -194,19 +207,18 @@ export default function Header() {
                   className={searchCheck !== '' && 'emptysearch'}
                   options={options}
                   onSearch={(text) => {
+                    setNotFound(false)
                     getPanelValue(text);
                     setSearch(text);
                     if (searchCheck !== '') {
                       setSearchCheck('');
                     }
-                    console.log('type: ', type);
                     debouncedGetRecommendations(text, type);
 
                   }
                   }
                   placeholder={type === 'name' ? 'Search professor by name' : 'Search for professors by university'}
                   onKeyDown={(event) => {
-                    console.log('envent occurred');
                     if (event.key === 'Enter') {
                       searchProfessor();
                     }

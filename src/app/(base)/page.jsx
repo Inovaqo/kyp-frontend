@@ -19,12 +19,13 @@ export default function Page() {
   const [recommendation,setRecommendation]=useState([])
   const [userInfo, setUserInfo] = useState(null);
   const [buttonText, setButtonText] = useState('Sign Up now');
+  const [notFound, setNotFound] = useState(false)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGetRecommendations = useCallback(
     debounce(async (text,type) => {
       await getRecommendations(text,type);
-    }, 1000), [] 
+    }, 500), [] 
   );
 
   console.log("type: ",type)
@@ -38,6 +39,7 @@ export default function Page() {
              setRecommendation(response.data)
         }catch(e){
           console.log("error on recommendation: ",e)
+          setNotFound(true);
           setRecommendation([])
         }
       }
@@ -101,6 +103,17 @@ export default function Page() {
     setRecommendation([]);
   }, [type]);
 
+  useEffect(()=>{
+    if(search=== ''){
+      setRecommendation([])
+    }
+  },[search])
+
+  useEffect(()=>{
+      setRecommendation([])
+      setSearch('')
+  },[type])
+
   return (<>
       <main className={styles.page}>
         <section>
@@ -117,7 +130,13 @@ export default function Page() {
                   />
                     <AutoComplete
                       autoFocus={true}
-                      value={search}
+                      notFoundContent={
+                        notFound ? (
+                          <div style={{ color: '#FFCC00', fontSize:'18px', textAlign: 'center',fontStyle:"italic" }}>
+                             Not Found
+                          </div>
+                        ) : null
+                      }
                       popupClassName=""
                       // popupMatchSelectWidth={500}
                       onSelect={function(value){
@@ -125,21 +144,25 @@ export default function Page() {
                           let selectedOption = recommendation.filter((recomend)=>recomend.name == value)
                           router.push(`/professor/${selectedOption[0].id}`)
                         }
-                        // router.push(`/professor/${value}`)
                       }}
                       style={{
                         width: "446px",
                         height:"72px",
                       }}
                       options={options}
+                      value={search} 
                     >
-                  <input value={search} onChange={(event)=>{
+                  <input 
+                  value={search} 
+                  onChange={(event)=>{
                     setSearch(event.target.value);
                     if(searchCheck !== ''){
                       setSearchCheck('')
                     }
+                    setNotFound(false)
                     debouncedGetRecommendations(event.target.value,type)
-                    }} className="px-20 search-input-field" placeholder={type === 'name'?'Search professor by name':'Search for professors by university'}
+                    }} 
+                    className="px-20 search-input-field" placeholder={type === 'name'?'Search for a professor by name.':'Search for professors by university.'}
                     onKeyDown={(event)=>{
                       if (event.key === 'Enter') {
                         searchProfessor()
