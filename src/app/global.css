@@ -855,7 +855,7 @@ p {
   min-height: 50px;
   margin-top: 4px;
   overflow-y: auto;
-  border-radius: 3px;
+  border-radius: 8px;
 }
 
 .selected {
@@ -1130,6 +1130,12 @@ p {
 }
 
 @media (max-width: 576px) {
+  .ant-select-selector{
+    /* border-radius: 12px !important; */
+    border-top-right-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+    border-right: 1px solid #d9d9d9 !important
+  }
   .rate-suggesstion{
     width: 100%;
   }
@@ -1242,12 +1248,16 @@ p {
     padding-left: 10px;
   }
   .mobile-width-dropdown {
-    width: 80px !important;
+    width: 100px !important;
     height: 52px !important;
   }
 
-  .mobile-width-dropdown-92{
-    width: 80px !important;
+  .mobile-width-dropdown-100{
+    width: 100px !important;
+  }
+
+  .mobile-text-14{
+    font-size: 14px;
   }
 
   .mobile-text-13 {

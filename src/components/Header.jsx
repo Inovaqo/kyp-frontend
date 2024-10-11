@@ -433,7 +433,7 @@ export default function Header() {
           setIsModalOpen(false)
         }}>
           {isDomLoaded && (
-              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px'}}>
+              <div className='mobile-mb-20' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60px'}}>
                 <CustomDropdown
                     selectedValue={type}
                     onSelect={setType}
@@ -450,7 +450,8 @@ export default function Header() {
                   flexDirection: 'row',
                   alignItems: "center",
                   position: 'relative',
-                  minHeight: '50px'
+                  minHeight: '50px',
+                  width:"100%"
                 }}>
 
                   {/* <span style={{position: "absolute", top: "30px"}} className="text-12">search</span> */}
@@ -482,10 +483,10 @@ export default function Header() {
                         }
                       }}
                       style={{
-                        width: '446px',
+                        width: '100%',
                         height: '52px'
                       }}
-                      className={`header-autocomplete-size ${searchCheck !== '' && 'emptysearch'}`}
+                      className={` ${searchCheck !== '' && 'emptysearch'}`}
 
                       options={options}
                       onSearch={(text) => {
@@ -517,11 +518,10 @@ export default function Header() {
           <div
               style={{
                 height: '52px',
-                width: '50px',
-                borderTopRightRadius: '12px',
-                borderBottomRightRadius: '12px'
+                width: '100%',
+                borderRadius:"12px"
               }}
-              className="bg-FFA337 flex items-center justify-center cursor-pointer width-header-search">
+              className="bg-FFA337 flex items-center justify-center cursor-pointer ">
             <Image height={24} width={24} src="/searchIcon.svg" alt="searchIcon"/>
           </div>
         </Modal>
