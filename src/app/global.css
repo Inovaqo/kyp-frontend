@@ -735,7 +735,7 @@ p {
   border-radius: 0px !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  border-right: 0 !important
+  /*border-right: 0 !important*/
 }
 
 .emptysearch .ant-select-selector{
@@ -1130,7 +1130,8 @@ p {
     /* border-radius: 12px !important; */
     border-top-right-radius: 12px !important;
     border-bottom-right-radius: 12px !important;
-    border-right: 1px solid #d9d9d9 !important
+    /*border-right: 1px solid #d9d9d9 !important*/
+    /*border-right: 1px !important;*/
   }
   .rate-suggesstion{
     width: 100%;

@@ -82,7 +82,10 @@ return<>
   <div>
     <div className="flex full-width justify-center mb-32 mt-60 ">
       <div className="flex items-center  border-radius-12 professor-mobile-flex-col position-relative full-width-responsive ">
-        <div className=" search-drop-shadow-class flex full-width-responsive">
+        <div className=" search-drop-shadow-class flex full-width-responsive" style={{
+          borderTopLeftRadius: '12px',
+          borderBottomLeftRadius: '12px'
+        }}>
           <CustomDropdown selectedValue={type}
                           onSelect={setType}
                           placeholder="Select" />

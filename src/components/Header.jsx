@@ -321,7 +321,7 @@ export default function Header() {
                               </div>
                             </Link>
                             <div className="flex items-center mb-16 cursor-pointer" onClick={logout}>
-                              <Image height={10} width={15} src="/logoutIcon.svg" alt="logoutIcon"/>
+                              <Image height={12} width={15} src="/logoutIcon.svg" alt="logoutIcon"/>
                               <p className="text-weight-400 text-14 text-1F1F1F ml-12">Logout</p>
                             </div>
                           </div>
