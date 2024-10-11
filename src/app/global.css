@@ -738,12 +738,8 @@ p {
   border-right: 0 !important
 }
 
-.emptysearch{
-  border-top-right-radius: 12px !important;
-  border-bottom-right-radius: 12px !important;
+.emptysearch .ant-select-selector{
   border: 1px solid red !important;
-  box-shadow: none !important;
-  outline: none !important;
 }
 
 /* .ant-select-focused:hover,.ant-select-focused:hover

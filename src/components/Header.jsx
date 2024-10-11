@@ -95,7 +95,9 @@ export default function Header() {
 
 
   useEffect(() => {
+    if(searchParams.get('searchBy') !== null){
       setType(searchParams.get('searchBy'))
+    }
   }, [searchParams.get('searchBy')]);
 
   useEffect(() => {
@@ -116,6 +118,7 @@ export default function Header() {
   useEffect(()=>{
     if(pathname.includes("search=")){
     }
+    setSearchCheck('');
   },[pathname])
 
   const logout = () => {
@@ -428,7 +431,6 @@ export default function Header() {
             </div>)
         }
 
-        {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
         <Modal footer={<></>} closeIcon={false} title="" open={isModalOpen} onCancel={() => {
           setIsModalOpen(false)
         }}>
@@ -486,8 +488,6 @@ export default function Header() {
                         width: '100%',
                         height: '52px'
                       }}
-                      className={` ${searchCheck !== '' && 'emptysearch'}`}
-
                       options={options}
                       onSearch={(text) => {
                         setNotFound(false)
@@ -526,6 +526,7 @@ export default function Header() {
           </div>
         </Modal>
       </div>
+      {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
     </nav>
   );
 }
