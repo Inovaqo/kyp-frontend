@@ -124,8 +124,8 @@ export default function ProfessorsListFilter(){
     <div className="flex justify-between mb-32 professor-mobile-flex-col">
       <div className="flex items-center">
         <p className="text-24 text-1F1F1F text-weight-600">Search Results</p>
-        <Image onClick={()=>{setSortOrder(!sortOrder);}} className="ml-12 cursor-pointer" width={20} height={16} src="/sortingIcon.svg" alt="sortingIcon"/>
-        <p className="ml-8 text-12 text-434343">{sortOrder?'ASC':'DESC'}</p>
+        {/*<Image onClick={()=>{setSortOrder(!sortOrder);}} className="ml-12 cursor-pointer" width={20} height={16} src="/sortingIcon.svg" alt="sortingIcon"/>*/}
+        {/*<p className="ml-8 text-12 text-434343">{sortOrder?'ASC':'DESC'}</p>*/}
       </div>
       <div className="flex items-center professor-mobile-results-selection  mobile-mt-20">
         <p className="text-weight-600 text-8C8C8C text-18 mr-16">{professorData?.total?professorData?.total:0} Results found</p>
