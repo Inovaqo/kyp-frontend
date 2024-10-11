@@ -901,6 +901,9 @@ p {
   .home-section-tablet-img img {
     width: 728px;
   }
+  .home-page-image-mt-40{
+    margin-top: 40px;
+  }
 }
 
 /*For tablet*/
