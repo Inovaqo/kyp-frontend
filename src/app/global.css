@@ -901,6 +901,9 @@ p {
   .home-section-tablet-img img {
     width: 728px;
   }
+  .home-page-image-mt-40{
+    margin-top: 40px;
+  }
 }
 
 /*For tablet*/
@@ -1126,6 +1129,7 @@ p {
 }
 
 @media (max-width: 576px) {
+  
   .ant-select-selector{
     /* border-radius: 12px !important; */
     border-top-right-radius: 12px !important;
@@ -1200,7 +1204,7 @@ p {
   .ant-select-selection-search-input {
     width: 100% !important;
     height: 52px !important;
-    font-size: 10px;
+    font-size: 14px;
     border: none !important;
   }
 

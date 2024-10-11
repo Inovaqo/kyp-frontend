@@ -188,7 +188,7 @@ export default function Page() {
                     <span style={{top:'10px'}} className="text-12 position-absolute text-ffffff">{searchCheck} </span>
                   </div>
               </div>
-              <div className="col-xl-6 col-lg-12 home-section-tablet-img">
+              <div className="col-xl-6 col-lg-12 home-section-tablet-img home-page-image-mt-40">
                 <Image height={540} width={738} src="/index/indexSectionOneImage.png" alt=""
                   // className="full-width"
                 />

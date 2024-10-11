@@ -21,7 +21,6 @@ export default function page(string) {
     dangerouslyAllowBrowser: true
   });
   async function checkAusiveWord(text) {
-    console.log("text: ",text)
     try {
       let chatCompletion = await client.chat.completions.create({
         messages: [{ role: 'user', content: `Determine whether the following text contains any abusive, offensive, or inappropriate language. Respond only with 'Yes' if it is abusive and 'No' if it is not.  Text: ${text}` }],
@@ -34,7 +33,6 @@ export default function page(string) {
         });
       }
       const response = chatCompletion.choices[0].message.content.trim().toLowerCase();
-      console.log("inside-------",response);
       if(response=="yes"){
         setPopup({
           show: true,
@@ -307,21 +305,19 @@ export default function page(string) {
   const updateQuestionValue = (index, value) => {
     let tempQuestions = [...questions];
     tempQuestions[index].value = value;
-    console.log(value);
     setQuestions(tempQuestions);
   };
 
   const submitRating = async () => {
-    if(!token){
-      router.push(`/`);
-    }
+    console.log("inside")
     try{
+      setSubmitLoader(true);
+      if(!token){
+        router.push(`/`);
+      }
       let checkAusiveWords= await checkAusiveWord(review);
       console.log("ofensive ",checkAusiveWords)
       if(!checkAusiveWords){
-      setSubmitLoader(true);
-      // const professorID=Number(slug)
-      // const studentId=Number(userInfo[0].id)
       let response =  await BaseApi.postRating({
         studentId: Number(userInfo[0].id),
         professorId:Number(slug),
@@ -344,7 +340,6 @@ export default function page(string) {
         // newCourse:newCourse
       });
       console.log("response------: ",response)
-      setSubmitLoader(false);
       if (response?.data?.message=="Rating created successfully")  {
         setPopup({
           show: true,
@@ -354,6 +349,8 @@ export default function page(string) {
         });
         router.push(`/professor/${slug}`)
       }
+     setSubmitLoader(false)
+
     }
    } catch (e) {
       setSubmitLoader(false);
@@ -387,10 +384,6 @@ export default function page(string) {
   }
   }
 
-  console.log("searched course: ",searchedCourse )
-  console.log("selected course ",course )
-  console.log("suggestions: ", suggestions )
-  console.log("new couse ",newCourse )
 
   return (
   <>{ Loading
@@ -506,7 +499,6 @@ export default function page(string) {
                 if(event.target.value.length>0){
                   setIsFocused(true)
                 }
-                console.log(" searched course event : ",event.target.value)
                 setSearchedCourse(event.target.value)
               let recommendation = options
                 .filter((option) => option.label.toLowerCase().includes(event.target.value.toLowerCase()))
@@ -517,8 +509,6 @@ export default function page(string) {
                   if (!aStartsWith && bStartsWith) return 1;
                   return 0;
                 });
-
-                console.log("recommendation: ",recommendation)
                 setSuggestions(recommendation)
 
               }}
@@ -882,7 +872,7 @@ export default function page(string) {
             </div>
 
             {/* Add tags */}
-            <div style={{height:"170px"}} className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
+            <div className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
             <p className="text-weight-600 text-18 text-1F1F1F mb-32">Select up to 3 tags</p>
             <div className="row full-width">
               <div className="col-12 ">
@@ -1038,6 +1028,7 @@ export default function page(string) {
               </button>
                 :
                 <button
+                disabled={submitLoader}
                 style={{ height: '44px' ,width:"180px"}}
                 className="px-20 bg-763FF9 border-none border-radius-4 text-ffffff text-weight-500 text-16 full-width-responsive"
                 type="submit"

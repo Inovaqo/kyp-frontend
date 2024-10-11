@@ -482,6 +482,7 @@ export default function Header() {
                           }
                           let selectedOption = recommendation.filter((recomend) => recomend.name == value);
                           router.push(`/professor/${selectedOption[0].id}`);
+                          setIsModalOpen(false)
                         }
                       }}
                       style={{
@@ -516,6 +517,10 @@ export default function Header() {
                 </div>
               </div>)}
           <div
+              onClick={()=>{
+                searchProfessor();
+                setIsModalOpen(false);
+              }}
               style={{
                 height: '52px',
                 width: '100%',
