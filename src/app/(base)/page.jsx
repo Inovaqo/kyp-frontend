@@ -19,12 +19,13 @@ export default function Page() {
   const [recommendation,setRecommendation]=useState([])
   const [userInfo, setUserInfo] = useState(null);
   const [buttonText, setButtonText] = useState('Sign Up now');
+  const [notFound, setNotFound] = useState(false)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedGetRecommendations = useCallback(
     debounce(async (text,type) => {
       await getRecommendations(text,type);
-    }, 1000), [] 
+    }, 500), [] 
   );
 
   console.log("type: ",type)
@@ -38,6 +39,7 @@ export default function Page() {
              setRecommendation(response.data)
         }catch(e){
           console.log("error on recommendation: ",e)
+          setNotFound(true);
           setRecommendation([])
         }
       }
@@ -81,7 +83,8 @@ export default function Page() {
   }, []);
 
   const searchProfessor= ()=>{
-    if(search === ''){
+    if(search.trim() === ''){
+      setSearch('')
       setSearchCheck('Search field can not be empty')
     }else{
       setSearchCheck('')
@@ -95,6 +98,22 @@ export default function Page() {
       router.push('/sign-up');
     }
   }
+  useEffect(() => {
+    console.log('ewewewewewee')
+    setSearch('');
+    setRecommendation([]);
+  }, [type]);
+
+  useEffect(()=>{
+    if(search=== ''){
+      setRecommendation([])
+    }
+  },[search])
+
+  useEffect(()=>{
+      setRecommendation([])
+      setSearch('')
+  },[type])
 
   return (<>
       <main className={styles.page}>
@@ -104,7 +123,7 @@ export default function Page() {
               <div className="col-xl-6 col-lg-12">
                 <h1 className="text-70 text-ffffff text-weight-600 mb-32 ">Find Professors by Name and Institution</h1>
                 <p className="text-24 text-F1ECFE text-weight-400 mb-40 mobile-text-16">Evaluate Your Professors and Enhance the Academic Experience</p>
-                <div className="flex items-center" >
+                <div className="flex" >
                   <CustomDropdown
                     selectedValue={type}
                     onSelect={setType}
@@ -112,6 +131,13 @@ export default function Page() {
                   />
                     <AutoComplete
                       autoFocus={true}
+                      notFoundContent={
+                        notFound ? (
+                          <div style={{ color: '#FFCC00', fontSize:'18px', textAlign: 'center',fontStyle:"italic" }}>
+                             Not Found
+                          </div>
+                        ) : null
+                      }
                       popupClassName=""
                       // popupMatchSelectWidth={500}
                       onSelect={function(value){
@@ -119,25 +145,27 @@ export default function Page() {
                           let selectedOption = recommendation.filter((recomend)=>recomend.name == value)
                           router.push(`/professor/${selectedOption[0].id}`)
                         }
-                        // router.push(`/professor/${value}`)
                       }}
                       style={{
                         width: "446px",
                         height:"72px",
                       }}
                       options={options}
+                      value={search} 
                     >
-                  <input value={search} onChange={(event)=>{
+                  <input 
+                  value={search} 
+                  onChange={(event)=>{
                     setSearch(event.target.value);
                     if(searchCheck !== ''){
                       setSearchCheck('')
                     }
-                    // getRecommendations(event.target.value)
-                    console.log("inside----- type: ",type)
-                    debouncedGetRecommendations(event.target.value,type)
-                    // debouncedGetRecommendations(getRecommendations(event.target.value),2000)
-                    // setTimeout(()=>getRecommendations(event.target.value),2000);
-                    }} className="px-20 search-input-field" placeholder={type === 'name'?'Search professor with name':'Search for professors by university.'}
+                    setNotFound(false)
+                    if(event.target.value.trim() !== ''){
+                      debouncedGetRecommendations(event.target.value.trim(),type)
+                    }
+                    }}
+                    className="px-20 search-input-field mobile-placeholder-font" placeholder={type === 'name'?'Search for a professor by name.':'Search for professors by university.'}
                     onKeyDown={(event)=>{
                       if (event.key === 'Enter') {
                         searchProfessor()

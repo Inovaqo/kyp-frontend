@@ -56,7 +56,11 @@ export default function User() {
         if(!token){
             router.push('/')
         }
-        setActiveTab(Number(searchParams.get('active')) || 0);
+        if(Number(searchParams.get('active')) > 2){
+            setActiveTab(0);
+        }else{
+            setActiveTab(Number(searchParams.get('active')) || 0);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams.get('active')]);
     return (

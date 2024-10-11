@@ -32,8 +32,8 @@ export default function SavedProfessor() {
   }
 
   const searchProfessor = ()=>{
-    if(search === ''){
-      getProfessors("");
+    if(search.trim() === ''){
+      setSearch('');
       setSearchCheck('Search field can not be empty')
     }else{
       getProfessors();
@@ -80,9 +80,12 @@ return<>
     :
     <>
   <div>
-    <div className="flex full-width justify-center mb-32 mt-60">
-      <div className="flex items-center  border-radius-12 professor-mobile-flex-col  full-width-responsive ">
-        <div className=" search-drop-shadow-class flex full-width-responsive">
+    <div className="flex full-width justify-center mb-32 mt-60 ">
+      <div className="flex items-center  border-radius-12 professor-mobile-flex-col position-relative full-width-responsive ">
+        <div className=" search-drop-shadow-class flex full-width-responsive" style={{
+          borderTopLeftRadius: '12px',
+          borderBottomLeftRadius: '12px'
+        }}>
           <CustomDropdown selectedValue={type}
                           onSelect={setType}
                           placeholder="Select" />
@@ -92,7 +95,7 @@ return<>
               setSearchCheck('')
             }
           }} className="px-20 search-input-field rating-input mobile-border-right"
-                 placeholder={type === 'name' ? 'Search professor with name' : 'Search for professors by university.'} 
+                 placeholder={type === 'name' ? 'Search professor by name' : 'Search for professors by university.'}
                  onKeyDown={(event)=>{
                   if (event.key === 'Enter') {
                     searchProfessor()
@@ -110,9 +113,9 @@ return<>
           }} className=" bg-FFA337 flex items-center justify-center cursor-pointer full-width-responsive border-mobile height-search-52">
           <Image height={24} width={24} src="/searchIcon.svg" alt="searchIcon" />
         </div>
+        {/*{searchCheck !== '' && (<span className="text-12 text-1F1F1F position-absolute" style={{top:'75px',left:'0'}}>{searchCheck}</span>)}*/}
       </div>
     </div>
-    {searchCheck !== '' && (<span className="text-12 text-ffffff">{searchCheck}</span>)}
     <div className="flex justify-between mb-32">
       <p className="text-weight-600 text-24 text-1F1F1F">Saved</p>
       <p className="text-weight-600 text-18 text-8C8C8C">{professorsData.total?professorsData.total:0}</p>

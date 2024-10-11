@@ -41,8 +41,6 @@ export default function SignUpForm(props) {
       .required('Required'),
     field: Yup.string()
     .required('Required'),
-    field: Yup.string()
-      .required('Required'),
     password: Yup.string()
       .required('Required'),
   });

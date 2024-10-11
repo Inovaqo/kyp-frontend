@@ -199,28 +199,30 @@ export default function page(){
             <div className="bg-FFEBCC flex column items-center justify-center star-rating-full-width"
                  style={{ width: '180px', height: '180px' }}>
               <p className="text-weight-600 text-40 text-1F1F1F">{professorDetails?.overallRating.toFixed(1)}</p>
-              <StarRating rating={4} />
+              <StarRating rating={professorDetails?.overallRating.toFixed(1)} />
               <p className="text-weight-500 text-14 text-1F1F1F">Quality Rating</p>
             </div>
 
             <div className="flex-1 ml-30 mobil-ml-none mobile-mt-28">
-              <RatingBar rating={5} reviews={100} reviewsGot={!professorDetails.star_distribution.five_star ? 0.00 : Math.floor(Number(professorDetails.star_distribution.five_star))} text={'Awesome'} />
-              <RatingBar rating={4} reviews={100} reviewsGot={!professorDetails.star_distribution.four_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.four_star))} text={'Great'} />
-              <RatingBar rating={3} reviews={100} reviewsGot={!professorDetails.star_distribution.three_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.three_star))} text={'Good'} />
-              <RatingBar rating={2} reviews={100} reviewsGot={!professorDetails.star_distribution.two_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.two_star))} text={'OK'} />
-              <RatingBar rating={1} reviews={100} reviewsGot={!professorDetails.star_distribution.one_star ? 0.00 :Math.floor(Number(professorDetails.star_distribution.one_star))} text={'Awful'} />
+              <RatingBar rating={5} progress={!professorDetails.star_distribution.five_star ? 0.00 : Math.round(Number(professorDetails.star_distribution.five_star))} text={'Awesome'} />
+              <RatingBar rating={4} progress={!professorDetails.star_distribution.four_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.four_star))} text={'Great'} />
+              <RatingBar rating={3} progress={!professorDetails.star_distribution.three_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.three_star))} text={'Good'} />
+              <RatingBar rating={2} progress={!professorDetails.star_distribution.two_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.two_star))} text={'OK'} />
+              <RatingBar rating={1} progress={!professorDetails.star_distribution.one_star ? 0.00 :Math.round(Number(professorDetails.star_distribution.one_star))} text={'Awful'} />
             </div>
           </div>
           <div className="d-none d-xl-block">
             <p className="text-1F1F1F text-weight-500 text-16 ">Tags</p>
             <div className="separator-x mt-3 mb-4"></div>
             <div className="flex mb-20 flex-wrap">
-              {professorDetails?.top_tags?.map((tag, index) => (
+               { professorDetails.top_tags ? (professorDetails?.top_tags?.map((tag, index) => (
                 <div key={tag + '-' + index}
                      className=" bg-F0F0F0 text-14 text-595959 text-weight-400 pa-10 border-radius-6 mr-16 mb-16">
                   {tag}
                 </div>
-              ))}
+              ))) : (<div>
+                    <p className="text-1F1F1F text-weight-400 text-16">No tags found.</p>
+              </div>) }
             </div>
           </div>
 
@@ -304,12 +306,14 @@ export default function page(){
         <p className="text-1F1F1F text-weight-500 text-16 ">Tags</p>
         <div className="separator-x mt-3 mb-4"></div>
         <div className="flex mb-20 flex-wrap">
-          {tags?.map((tag, index) => (
+        { professorDetails.top_tags ?  (professorDetails?.top_tags?.map((tag, index) => (
             <div key={tag + '-' + index}
                  className=" bg-F0F0F0 text-14 text-595959 text-weight-400 pa-10 border-radius-6 mr-16 mb-16">
               {tag}
             </div>
-          ))}
+          ))) : (<div>
+             <p className="text-1F1F1F text-weight-400 text-16">No tags found.</p>
+          </div>)}
         </div>
       </div>
 

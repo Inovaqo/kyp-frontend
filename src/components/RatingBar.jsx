@@ -1,8 +1,7 @@
 import StarRating from './StarRating';
-export default function RatingBar({rating, reviews, reviewsGot,text}) {
-  let progress = (reviewsGot/reviews) * 100;
+export default function RatingBar({rating, progress,text}) {
   return<>
-    <div className="flex items-center full-width professor-mobile-results-selection mobile-mb-8 ">
+    <div className="flex items-center full-width professor-mobile-results-selection mobile-mb-8 mb-6">
       <div className="flex items-center" style={{width:'222px'}}>
         <StarRating rating={rating} />
         <p className="text-14 text-weight-500 text-1F1F1F ml-12">{text}</p>

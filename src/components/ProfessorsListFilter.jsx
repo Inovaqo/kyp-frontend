@@ -11,7 +11,7 @@ export default function ProfessorsListFilter(){
   const [showmoreLoader,setShowMoreLoader] = useState(false);
   const [professors, setProfessors] = useState([]);
   const searchParams = useSearchParams();
-  const [type, setType] = useState('name');
+  const [type, setType] = useState('first_name');
   const [sort, setSort] = useState('first_name');
   const [sortOrder, setSortOrder] = useState(true);
   const [search, setSearch] = useState('');
@@ -46,11 +46,10 @@ export default function ProfessorsListFilter(){
     
     setProfessors(updatedProfessors);
   }
-  const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false)=>{
-    // if(text){
+  const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false,option_selected=false)=>{
       try{
        showMore? setShowMoreLoader(true): setLoading(true)
-        await BaseApi.getProfessors({sortField:sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page})
+        await BaseApi.getProfessors({sortField:option_selected ? searchBy : sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page})
           .then((response)=>{
             if(concatCheck){
               let tempProfessors = professors;
@@ -67,15 +66,12 @@ export default function ProfessorsListFilter(){
         setProfessorData([])
         showMore? setShowMoreLoader(false):  setLoading(false)
       }
-    // } else {
-    //   showMore? setShowMoreLoader(false):  setLoading(false)
-    // }
   }
   
   useEffect(() => {
     setSearch(searchParams.get('search')|| '')
-    setType(searchParams.get('searchBy') || '0')
-    getProfessors(searchParams.get('searchBy'),searchParams.get('search'));
+    setType(searchParams.get('searchBy') || 'first_name')
+    getProfessors(searchParams.get('searchBy')|| 'first_name',searchParams.get('search')|| '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ searchParams.get('search')]);
 
@@ -86,7 +82,6 @@ export default function ProfessorsListFilter(){
     }
   },[search,searchParams.get('search')])
   useEffect(() => {
-    // getProfessors(type,search,false,1)
     if (isFirstRender.current) {
       isFirstRender.current = false;
     } else {
@@ -96,36 +91,11 @@ export default function ProfessorsListFilter(){
   }, [sortOrder]);
 
   return <>
-    {/* <div className="mb-60"> */}
-      {/* <div className="flex flex-nowrap professor-mobile-flex-col ">
-        <div className="flex items-center ">
-       <CustomDropdown  selectedValue={type}
-                        onSelect={setType}
-                        placeholder="Select"/>
-
-        <input value={search} onChange={(event)=>{ setSearch(event.target.value)}} style={{ height: '72px', width: '420px', borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}
-               className="px-20 border-color-D9D9D9 mobile-px-10 search-input-field border-right search-input-full-width"
-               placeholder={type === 'name' ? 'Search professor with name' : 'Search for professors by university.'}
-               onKeyDown={(event)=>{
-                if (event.key === 'Enter') {
-                  getProfessors(type,search,false,1)
-                }
-              }}
-               />
-        </div>
-        <div
-          onClick={()=>{getProfessors(type,search,false,1)}}
-          style={{ height: '72px', width: '72px' }}
-          className="bg-FFA337 flex items-center justify-center border-radius-12 ml-30 cursor-pointer professer-list-ml-0 height-search-52">
-          <Image height={24} width={24} src="/searchIcon.svg" alt="searchIcon" />
-        </div>
-      </div> */}
-    {/* </div> */}
     <div className="flex justify-between mb-32 professor-mobile-flex-col">
       <div className="flex items-center">
         <p className="text-24 text-1F1F1F text-weight-600">Search Results</p>
-        <Image onClick={()=>{setSortOrder(!sortOrder);}} className="ml-12 cursor-pointer" width={20} height={16} src="/sortingIcon.svg" alt="sortingIcon"/>
-        <p className="ml-8 text-12 text-434343">{sortOrder?'ASC':'DESC'}</p>
+        {/*<Image onClick={()=>{setSortOrder(!sortOrder);}} className="ml-12 cursor-pointer" width={20} height={16} src="/sortingIcon.svg" alt="sortingIcon"/>*/}
+        {/*<p className="ml-8 text-12 text-434343">{sortOrder?'ASC':'DESC'}</p>*/}
       </div>
       <div className="flex items-center professor-mobile-results-selection  mobile-mt-20">
         <p className="text-weight-600 text-8C8C8C text-18 mr-16">{professorData?.total?professorData?.total:0} Results found</p>
@@ -139,6 +109,7 @@ export default function ProfessorsListFilter(){
               backgroundColor: '#ffffff',
               cursor: 'pointer',
               display: 'flex',
+              justifyContent: 'center',
               alignItems: 'center',
 
             }}
@@ -152,7 +123,7 @@ export default function ProfessorsListFilter(){
               style={{
                 position: 'absolute',
                 marginTop:'4px',
-                width: '200px',
+                width: '156px',
                 borderRadius: '12px',
                 border: '1px solid #D9D9D9',
                 backgroundColor: '#ffffff',
@@ -160,7 +131,7 @@ export default function ProfessorsListFilter(){
                 maxHeight: '200px',
 
               }}
-              className="px-10 border-color-D9D9D9"
+              className="px-10  border-color-D9D9D9"
             >
               {options.map(option => (
                 <div
@@ -168,7 +139,7 @@ export default function ProfessorsListFilter(){
                   onClick={() => {
                     setSort(option.value);
                     setDropdownOpen(false);
-                    getProfessors(type,search,false,1)
+                    getProfessors(option.value,search,false,1,false,true)
                   }}
                   style={{
                     cursor: 'pointer',
