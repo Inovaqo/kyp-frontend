@@ -882,7 +882,7 @@ export default function page(string) {
             </div>
 
             {/* Add tags */}
-            <div style={{height:"170px"}} className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
+            <div className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
             <p className="text-weight-600 text-18 text-1F1F1F mb-32">Select up to 3 tags</p>
             <div className="row full-width">
               <div className="col-12 ">

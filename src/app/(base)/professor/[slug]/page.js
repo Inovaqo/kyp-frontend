@@ -286,8 +286,9 @@ export default function page(){
                   <p className="text-434343 text-weight-400 text-14 ml-mobile-30">Course Difficulty</p>
                 </div>
               </div>
+              
             </div>
-            <div className="col-sm-12 col-md-6 flex column justify-around full-width-responsive">
+            <div className="col-sm-12 col-md-6 d-md-flex d-block column justify-around full-width-responsive">
               <div className="flex items-center">
                 <div className="border-radius-8 flex items-center justify-center bg-F0F0F0" style={{ width: '60px', height: '60px' }}>
                 <Image width={32} height={32} src="/knowledgeable.svg" alt="Exam Difficulty" />
