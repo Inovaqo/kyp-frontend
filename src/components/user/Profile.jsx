@@ -355,7 +355,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   alignItems: "center",
                                   justifyContent: "space-between",
                                 }}
-                                className={`px-20 border-radius-8 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive ${
+                                className={`px-10 border-radius-8 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive ${
                                   institute.length > 0 ? "cursor-pointer" : ""
                                 }`}
                               >
@@ -463,7 +463,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   alignItems: "center",
                                   justifyContent: "space-between",
                                 }}
-                                className={`px-20 border-radius-8 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive  ${
+                                className={`px-10 border-radius-8 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive  ${
                                   department.length > 0 ? "cursor-pointer" : ""
                                 }`}
                               >
