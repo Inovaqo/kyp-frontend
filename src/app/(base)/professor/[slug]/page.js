@@ -38,19 +38,26 @@ export default function page(){
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [saved,setSaved] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [disableButton,setDisableButton] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dropdownRef = useRef(null);
   const saveProfessor = async () => {
-    try{
-      if(!token){
-        router.push('/login')
+    if(!disableButton){
+      try{
+        if(!token){
+          router.push('/login')
+        }
+        setDisableButton(true)
+        setSaved((prev)=>!prev)
+        await BaseApi.saveProfessor({professorId:Number(slug) ,flag:saved?0:1})
+          .then((response)=>{
+          })
+          setDisableButton(false)
+      }catch(err){
+        console.error(err);
+        setSaved((prev)=>!prev)
+        setDisableButton(false)
       }
-      setSaved((prev)=>!prev)
-      await BaseApi.saveProfessor({professorId:Number(slug) ,flag:saved?0:1})
-        .then((response)=>{
-        })
-    }catch(err){
-      console.error(err);
-      setSaved((prev)=>!prev)
     }
   }
 
