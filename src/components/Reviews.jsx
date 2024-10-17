@@ -95,7 +95,6 @@ export default function Reviews({reviews,professorId,updateRatings}) {
   }
 
   const copyToClipboard = (id) => {
-    console.log("----inside-----")
     navigator.clipboard.writeText(`${window.location.origin}/professor/review/${id}`).then(
       () => {
         setPopup({
@@ -104,7 +103,6 @@ export default function Reviews({reviews,professorId,updateRatings}) {
           message: 'Link Copied to Clipboard',
           timeout: 3000,
         });
-        console.log('Copied!');
       },
       (err) => {
         console.error('Error copying to clipboard: ', err);

@@ -51,18 +51,14 @@ export default function UserRatings() {
         if (seeMore) {
           let tempRatings = ratings;
           tempRatings = tempRatings.concat(response.data.data);
-          console.log("tempProfessors:", tempRatings);
           setRatings(tempRatings);
         } else {
-          console.log("response.data.data");
-          console.log(response.data.data);
           setRatings(response.data.data);
         }
         setRatingsData(response.data);
         showMore ? setShowMoreLoader(false) : setLoading(false);
       });
     } catch (e) {
-      console.log(e);
       setRatings([]);
       setRatingsData({});
       showMore ? setShowMoreLoader(false) : setLoading(false);
@@ -191,7 +187,7 @@ export default function UserRatings() {
               <div>
                 {ratings.map((rating, index) => (
                   <div key={"myratings_" + index}>
-                    <div className="flex mb-60 position-relative">
+                    <div className="flex mb-30 tablet-mb-40  position-relative">
                       <div
                         onClick={() => {
                           getDetails(rating.professor.id);
@@ -234,7 +230,7 @@ export default function UserRatings() {
                         </p>
                       </div>
                       <div
-                        style={{ top: "64px", left: "22px" }}
+                        style={{ top: "66px", left: "29px" }}
                         className="position-absolute"
                       >
                         <Image

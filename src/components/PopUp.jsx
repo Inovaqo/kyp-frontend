@@ -6,7 +6,6 @@ import { RxCross2 } from "react-icons/rx";
 export default function PopUp({ props}) {
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
-    console.log(props);
     setShowPopup(props.show)
     setTimeout(()=>{
       setShowPopup(false)
@@ -27,7 +26,6 @@ export default function PopUp({ props}) {
 export const SharedPopUp = ({ props}) => {
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
-    console.log(props);
     setShowPopup(props.show)
     setTimeout(()=>{
       setShowPopup(false)

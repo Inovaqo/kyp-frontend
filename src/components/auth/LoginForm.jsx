@@ -35,8 +35,6 @@ export default function LoginForm() {
         router.push('/')
       })
     } catch (error) {
-      console.log("error: ",error)
-      setLoading(false)
       if(error?.response?.data?.message?.includes("Invalid")){
         setPopup({
           show: true,
@@ -56,11 +54,9 @@ export default function LoginForm() {
   };
 
   const handleGoogleLoginSuccess = async (res) => {
-    console.log('Google Credential Response:', res);
 
     try {
       const decoded = jwtDecode(res.credential);
-      console.log('Decoded:', decoded);
       const email = decoded.email;
 
 

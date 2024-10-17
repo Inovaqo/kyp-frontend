@@ -46,10 +46,10 @@ export default function ProfessorsListFilter(){
     
     setProfessors(updatedProfessors);
   }
-  const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false,option_selected=false)=>{
+  const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false,option_selected=false,sortType)=>{
       try{
        showMore? setShowMoreLoader(true): setLoading(true)
-        await BaseApi.getProfessors({sortField:option_selected ? searchBy : sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page,search_empty: searchParams.get('search') ? false : true})
+        await BaseApi.getProfessors({sortField:option_selected ? sortType : sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page,search_empty: searchParams.get('search') ? false : true})
           .then((response)=>{
             if(concatCheck){
               let tempProfessors = professors;
@@ -139,7 +139,7 @@ export default function ProfessorsListFilter(){
                   onClick={() => {
                     setSort(option.value);
                     setDropdownOpen(false);
-                    getProfessors(option.value,search,false,1,false,true)
+                    getProfessors(type,search,false,1,false,true,option.value)
                   }}
                   style={{
                     cursor: 'pointer',
@@ -164,7 +164,7 @@ export default function ProfessorsListFilter(){
         <div>
           <ProfessorsList professors={professors} updateProfessors={updateProfessors} professorlist={true} />
           {Number(professorData.page) < professorData.lastPage &&(<div className="flex items-center justify-center mt-4">
-            <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={()=>{getProfessors(type||searchParams.get('searchBy'),search||searchParams.get('search'),true,Number(professorData.page)+1,true)}}>
+            <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={()=>{getProfessors(type||searchParams.get('searchBy'),search||searchParams.get('search')||'',true,Number(professorData.page)+1,true)}}>
               <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> 
             </div> 
           </div>)}

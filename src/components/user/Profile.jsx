@@ -78,7 +78,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
       return selecteddepartment
     } catch (e) {
       setDeparmentLoader(false);
-      console.log("error: ", e);
       setDeparment([]);
       setPopup({
         show: true,
@@ -171,7 +170,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
           });
         });
       } catch (e) {
-        console.log("error--------", e);
         setSavePasswordLoader(false);
         if (e?.message?.includes("Network")) {
           setPopup({
@@ -218,7 +216,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
       setLoading(false);
     } catch (e) {
       setLoading(false);
-      console.log("error: ", e);
       setPopup({
         show: true,
         type: "error",
@@ -526,7 +523,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
 
                         <div className=" col-12 mobile-padding-right-0 ">
                           <div className="row ">
-                            <div className="col-12 mb-20 mobile-padding-right-0 ">
+                            <div className="col-12 mb-32 mobile-padding-right-0 ">
                               <label className="text-141414 text-weight-400 text-14 mb-2">
                                 Email
                               </label>

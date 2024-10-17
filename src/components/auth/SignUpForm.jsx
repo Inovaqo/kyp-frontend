@@ -45,24 +45,18 @@ export default function SignUpForm(props) {
       .required('Required'),
   });
 
-  console.log("institute ---- : ",institute)
-  console.log("selected: ",selectedDepartment)
-
   const getDepartments = async () =>{
     try{
       setDeparmentLoader(true);
       let department = await AuthApi.getDepartment(selectedInstitute.label);
-      console.log("department ",department);
       setDeparment(department.data)
       setDeparmentLoader(false);
     } catch (e){
       setDeparmentLoader(false);
-      console.log("error: ",e)
       setDeparment([])
       setPopup({show:true,type:'error',message:error.message,timeout:3000});
     }
   }
-  console.log("institute ---- : ",institute)
   useEffect(()=>{
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -87,7 +81,6 @@ export default function SignUpForm(props) {
   },[selectedInstitute])
 
   const handleSubmit = async (values) => {
-    console.log("values---------: ",values)
     try {
       setLoading(true);
       await AuthApi.signup({
@@ -114,11 +107,9 @@ export default function SignUpForm(props) {
 
 
   const handleGoogleLoginSuccess = async (res) => {
-    console.log('Google Credential Response:', res);
 
     try {
       const decoded = jwtDecode(res.credential);
-      console.log('Decoded:', decoded);
       const email = decoded.email;
       const first_name=decoded.given_name;
       const last_name=decoded.family_name;
@@ -191,7 +182,7 @@ export default function SignUpForm(props) {
                   }}
                   className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive ${institute.length>0 ? 'cursor-pointer' : ''}`}
                 >
-                  <div style={{display:"flex", justifyContent:"space-between",width: "250px"}} className="text-14">
+                  <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
                       <div className="text-14">
                         {institute.find((option) => option === selectedInstitute)?.label||
                           'Select University'}
@@ -206,7 +197,7 @@ export default function SignUpForm(props) {
                 style={{
                   position: 'absolute',
                   marginTop: '4px',
-                  width: '270px',
+                  width: '100%',
                   borderRadius: '12px',
                   border: '1px solid #D9D9D9',
                   backgroundColor: '#ffffff',
@@ -253,14 +244,14 @@ export default function SignUpForm(props) {
                   }
                   style={{
                     height: '46px',
-                    width: '270px',
+                    width: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
                   className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive  ${department.length>0 ? 'cursor-pointer' : ''}`}
                 >
-                  <div style={{display:"flex", justifyContent:"space-between",width: "250px"}} className="text-14">
+                  <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
                      <div> {department?.find((option) => option === selectedDepartment)?.label||
                       'Select Field of study'}
                       </div>

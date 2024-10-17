@@ -58,7 +58,6 @@ export default function SavedProfessor() {
         startIndex: startIndex,
         endIndex: endIndex,
       }).then((response) => {
-        console.log("response----", response);
         if (seeMore) {
           let tempProfessors = [...professors];
           tempProfessors.splice(
@@ -66,7 +65,6 @@ export default function SavedProfessor() {
             endIndex - startIndex,
             ...response.data.data
           );
-          console.log("tempProfessors:", tempProfessors);
           setProfessors(tempProfessors);
         } else {
           setProfessors(response.data.data);
@@ -76,7 +74,6 @@ export default function SavedProfessor() {
         showMore ? setShowMoreLoader(false) : setLoading(false);
       });
     } catch (e) {
-      console.log(e);
       setProfessors([]);
       setProfessorsData([]);
       showMore ? setShowMoreLoader(false) : setLoading(false);

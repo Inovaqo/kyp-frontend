@@ -12,7 +12,6 @@ export const AuthApi = {
         setToken(response.data.token);
       })
     } catch (e) {
-      console.log('error', e);
       throw e ;
     }
   },
@@ -21,7 +20,6 @@ export const AuthApi = {
        let response = await AuthApiService.getInstitute()
        return response;
     } catch (e) {
-      console.log('error', e);
       throw e ;
     }
   },
@@ -30,7 +28,6 @@ export const AuthApi = {
        let response = await AuthApiService.getDepartment(data)
        return response;
     } catch (e) {
-      console.log('error', e);
       throw e ;
     }
   },
@@ -42,7 +39,6 @@ export const AuthApi = {
           setToken(response.data.token);
         })
     } catch (e) {
-      console.log('error', e.response.data);
       throw e.response.data;
     }
   },
@@ -50,7 +46,6 @@ export const AuthApi = {
     try {
       return await AuthApiService.forgetPassword(forgetPasswordData);
     } catch (e) {
-      console.log('error', e.response.data);
       throw e.response.data;
     }
   },
@@ -58,7 +53,6 @@ export const AuthApi = {
     try {
       return await AuthApiService.resetPassword(data);
     } catch (e) {
-      console.log('error', e);
       throw e.response.data;  
     }
   },
@@ -67,7 +61,6 @@ export const AuthApi = {
       destroyToken();
       destroyUserInfo();
     } catch (e) {
-      console.log('error', e);
     }
   },
 };

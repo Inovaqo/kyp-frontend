@@ -45,7 +45,6 @@ export default function page(string) {
         return false;
       }
     } catch(e){
-      console.log("error----------: ",e)
       if (e.status==429) {
         setPopup({
           show: true,
@@ -79,7 +78,6 @@ export default function page(string) {
   const [suggestions,setSuggestions]=useState([])
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const userInfo = useState(JSON.parse(getUserInfo()));
-  // console.log("userInfo: ",userInfo[0].id);
   const filter = new Filter();
   filter.addWords(...abusiveWords)
   const validationSchema = Yup.object({
@@ -224,7 +222,6 @@ export default function page(string) {
     try{
       setLoading(true)
       let response =  await BaseApi.getProfessorCourses({id:slug});
-      console.log("response----: ",response)
       if (response?.data?.message?.includes("not found")) {
         router.push(`/`);
       }
@@ -238,7 +235,6 @@ export default function page(string) {
       })
       setLoading(false)
     } catch(e){
-      console.log("error: ",e)
       setLoading(false)
     }
 
@@ -309,14 +305,12 @@ export default function page(string) {
   };
 
   const submitRating = async () => {
-    console.log("inside")
     try{
       setSubmitLoader(true);
       if(!token){
         router.push(`/`);
       }
       let checkAusiveWords= await checkAusiveWord(review);
-      console.log("ofensive ",checkAusiveWords)
       if(!checkAusiveWords){
       let response =  await BaseApi.postRating({
         studentId: Number(userInfo[0].id),
@@ -339,7 +333,6 @@ export default function page(string) {
         courseCode:course.label,
         // newCourse:newCourse
       });
-      console.log("response------: ",response)
       if (response?.data?.message=="Rating created successfully")  {
         setPopup({
           show: true,
@@ -423,71 +416,6 @@ export default function page(string) {
             </p>
             <div className="separator-x mb-60"></div>
             <div className="flex items-center mb-32 professor-mobile-results-selection  ">
-              {/* <div style={{height:"60px"}}  className="relative sort-dropdown  full-width-responsive" ref={dropdownRef}>
-                <div
-                  onClick={() => setDropdownOpen(!DropdownOpen)
-                  }
-                  style={{
-                    height: '48px',
-                    width: '200px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                  className="px-20 border-radius-8 border-color-D9D9D9 full-width-responsive"
-                >
-                  <p className="text-18">
-                    {options.find((option) => option.value === course?.value)?.label ||
-                      'Select Course'}
-                  </p>
-                  <Image
-                    style={{ marginLeft: '24px' }}
-                    height={10}
-                    width={10}
-                    src="/arrowicon.svg"
-                    alt="searchIcon"
-                  />
-                </div>
-                {DropdownOpen && (
-              <div
-                style={{
-                  position: 'absolute',
-                  marginTop: '4px',
-                  width: '200px',
-                  borderRadius: '12px',
-                  border: '1px solid #D9D9D9',
-                  backgroundColor: '#ffffff',
-                  zIndex: 10,
-                  maxHeight: '200px',
-                  overflow:'auto'
-                }}
-                className="px-10 border-color-D9D9D9"
-              >
-                {options.map((option) => (
-                  <div
-                    key={option.value}
-                    onClick={() => {
-                      setFieldValue('course', option);
-                      setCourse(option);
-                      setDropdownOpen(false);
-                    }}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                    className="px-10 py-12"
-                  >
-                    {option.label}
-                  </div>
-                ))}
-              </div>
-            )}
-            <ErrorMessage
-              name="course"
-              component="div"
-              className="error-message"
-              style={{ color: 'red' }}
-            />
-              </div> */}
               <div className='mobile-full-width'>
                 <div className='input-container'>
               <input 
@@ -542,69 +470,68 @@ export default function page(string) {
               />
                <span className='dropdown-icon' >{isFocused ? <IoIosArrowDown size={18} /> : <IoIosArrowUp size={18} />}  </span>
               </div>
-
-{isFocused && (
-  <div className="position-relative">
-  <div className='rate-suggesstion'>
-    {searchedCourse.length > 0 ? (
-      suggestions.length > 0 ? (
-        suggestions.map((suggestion, index) => (
-          <div 
-            key={index} 
-            className={`selected ${suggestion.label === course.label ? 'bg-E6F1F6' : ''}`} 
-            onMouseDown={() => {
-              setFieldValue('course', suggestion);
-              setSearchedCourse(suggestion.label);
-              setCourse(suggestion);
-              setIsFocused(false);
-            setSearchedCourse("")
-            
-            }}
-          >
-            {suggestion.label}
-          </div>
-         
-        ))
-      ) : (
-        <div 
-          className={`selected ${searchedCourse === course.label ? 'bg-E6F1F6' : ''}`} 
-          onMouseDown={(event) => {
-            event.stopPropagation();
-            setNewCourse(true);
-            setCourse({ value: options.length, label: searchedCourse, id: 0 });
-            setFieldValue('course', { value: options.length, label: searchedCourse, id: 0 });
-            setIsFocused(false);
-            setSearchedCourse("")
-            
-          }}
-        >
-          Create &#34;{searchedCourse || course.label}&#34;
-        </div>
-      )
-    ) : (
-     options.length > 0 ?
-      options.map((option, index) => (
-        <div 
-          key={index} 
-          className={`selected ${option.label === course.label ? 'bg-E6F1F6' : ''}`} 
-          onMouseDown={() => {
-            setFieldValue('course', option);
-            setSearchedCourse(option.label);
-            setCourse(option);
-            setSuggestions([option])
-            setIsFocused(false);
-            setSearchedCourse("")
-          }}
-        >
-          {option.label}
-        </div>
-      ))
-      :
-      <div >  </div>
-    )}
-  </div>
-  </div>
-)}
+                {isFocused && (
+                  <div className="position-relative">
+                  <div className='rate-suggesstion'>
+                    {searchedCourse.length > 0 ? (
+                      suggestions.length > 0 ? (
+                        suggestions.map((suggestion, index) => (
+                          <div 
+                            key={index} 
+                            className={`selected ${suggestion.label === course.label ? 'bg-E6F1F6' : ''}`} 
+                            onMouseDown={() => {
+                              setFieldValue('course', suggestion);
+                              setSearchedCourse(suggestion.label);
+                              setCourse(suggestion);
+                              setIsFocused(false);
+                            setSearchedCourse("")
+                            
+                            }}
+                          >
+                            {suggestion.label}
+                          </div>
+                         
+                        ))
+                      ) : (
+                        <div 
+                          className={`selected ${searchedCourse === course.label ? 'bg-E6F1F6' : ''}`} 
+                          onMouseDown={(event) => {
+                            event.stopPropagation();
+                            setNewCourse(true);
+                            setCourse({ value: options.length, label: searchedCourse, id: 0 });
+                            setFieldValue('course', { value: options.length, label: searchedCourse, id: 0 });
+                            setIsFocused(false);
+                            setSearchedCourse("")
+                            
+                          }}
+                        >
+                          Create &#34;{searchedCourse || course.label}&#34;
+                        </div>
+                      )
+                    ) : (
+                     options.length > 0 ?
+                      options.map((option, index) => (
+                        <div 
+                          key={index} 
+                          className={`selected ${option.label === course.label ? 'bg-E6F1F6' : ''}`} 
+                          onMouseDown={() => {
+                            setFieldValue('course', option);
+                            setSearchedCourse(option.label);
+                            setCourse(option);
+                            setSuggestions([option])
+                            setIsFocused(false);
+                            setSearchedCourse("")
+                          }}
+                        >
+                          {option.label}
+                        </div>
+                      ))
+                      :
+                      <div >  </div>
+                    )}
+                  </div>
+                  </div>
+                )}
 
                <ErrorMessage
               name="course"
@@ -874,7 +801,7 @@ export default function page(string) {
             </div>
 
             {/* Add tags */}
-            <div style={{height:'150px'}} className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
+            <div  className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
             <p className="text-weight-600 text-18 text-1F1F1F mb-32">Select up to 3 tags</p>
             <div className="row full-width">
               <div className="col-12 ">
@@ -886,7 +813,7 @@ export default function page(string) {
                         values.selectedTags.includes(tag)
                           ? 'bg-D6C5FD text-49269C'
                           : 'bg-F0F0F0 text-595959'
-                      } text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-6 cursor-pointer`}
+                      } text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-16 cursor-pointer`}
                       onClick={() => {
                         let newTags = [...values.selectedTags];
                         if (newTags.includes(tag)) {
@@ -894,7 +821,7 @@ export default function page(string) {
                         } else if (newTags.length < 3) {
                           newTags.push(tag);
                         } else if (newTags.length >= 3) {
-                          setWarning("You may select up to three tags.")
+                          setWarning("Select up to three tags.")
                           setTimeout(()=>setWarning(""),3000)
                         }
                         setFieldValue('selectedTags', newTags);

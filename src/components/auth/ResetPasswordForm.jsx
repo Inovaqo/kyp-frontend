@@ -9,7 +9,6 @@ import { useParams } from 'next/navigation';
 export default function ResetPasswordForm() {
 const [loading,setLoading] = useState(false);
  const {slug} = useParams();
-//  console.log("slug : ",slug)
   const [popup, setPopup] = useState({
     show: false,
     type: '',
@@ -23,9 +22,6 @@ const [loading,setLoading] = useState(false);
       .required('Required'),
   });
   const handleSubmit = async (values) => {
-    // console.log("-----------INSIDE------------")
-    // console.log("Values: ",values)
-
     try {
       setLoading(true);
       if(values.password==values.confirmPassword){
@@ -47,7 +43,6 @@ const [loading,setLoading] = useState(false);
       setLoading(false)
     
     } catch (error) {
-      console.log("error: ",error)
       setLoading(false)
       setPopup({
         show: true,
