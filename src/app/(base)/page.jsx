@@ -28,17 +28,24 @@ export default function Page() {
     }, 500), [] 
   );
 
-  console.log("type: ",type)
-  
   const getRecommendations = async (text,type) => {
-      console.log("----inside-----",type)
       if(text){
         try{
          let response =  await BaseApi.getRecommendations({searchBy:type,search:text})
-             console.log("response on recommendation: ",response)
-             setRecommendation(response.data)
+         let sortedRecomendation = response.data.sort((a, b) => {
+          const lowerText = text.toLowerCase();
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          if (nameA === lowerText) return -1;
+          if (nameB === lowerText) return 1;
+          if (nameA.startsWith(lowerText) && !nameB.startsWith(lowerText)) return -1;
+          if (!nameA.startsWith(lowerText) && nameB.startsWith(lowerText)) return 1;
+          if (nameA.includes(lowerText) && !nameB.includes(lowerText)) return -1;
+          if (!nameA.includes(lowerText) && nameB.includes(lowerText)) return 1;
+          return 0;
+        });
+        setRecommendation(sortedRecomendation);
         }catch(e){
-          console.log("error on recommendation: ",e)
           setNotFound(true);
           setRecommendation([])
         }
@@ -55,10 +62,8 @@ export default function Page() {
         </div>
 
       <div style={{ display: 'flex', flexDirection: 'column',margin:" 3px 10px 2px 20px"  }}>
-        {/* { console.log("department: ",department)} */}
         <span style={{ fontSize:"17px" }}>{name}</span>
         <div style={{fontSize:"13px" }}>
-        {/* <span style={{ fontSize: 'small', color: 'gray' }}>{department}</span> . */}
         Professor at  <span style={{marginLeft:"3px",fontWeight:"bold"}}>{institute}</span>
         </div>
       </div>
@@ -99,7 +104,6 @@ export default function Page() {
     }
   }
   useEffect(() => {
-    console.log('ewewewewewee')
     setSearch('');
     setRecommendation([]);
   }, [type]);
@@ -139,7 +143,6 @@ export default function Page() {
                         ) : null
                       }
                       popupClassName=""
-                      // popupMatchSelectWidth={500}
                       onSelect={function(value){
                         if(value){
                           let selectedOption = recommendation.filter((recomend)=>recomend.name == value)
@@ -190,7 +193,6 @@ export default function Page() {
               </div>
               <div className="col-xl-6 col-lg-12 home-section-tablet-img home-page-image-mt-40">
                 <Image height={540} width={738} src="/index/indexSectionOneImage.png" alt=""
-                  // className="full-width"
                 />
               </div>
             </div>

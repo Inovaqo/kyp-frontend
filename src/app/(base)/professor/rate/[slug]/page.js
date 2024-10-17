@@ -351,6 +351,8 @@ export default function page(string) {
       }
      setSubmitLoader(false)
 
+    } else {
+      setSubmitLoader(false)
     }
    } catch (e) {
       setSubmitLoader(false);
@@ -872,7 +874,7 @@ export default function page(string) {
             </div>
 
             {/* Add tags */}
-            <div className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
+            <div style={{height:'150px'}} className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
             <p className="text-weight-600 text-18 text-1F1F1F mb-32">Select up to 3 tags</p>
             <div className="row full-width">
               <div className="col-12 ">
@@ -884,7 +886,7 @@ export default function page(string) {
                         values.selectedTags.includes(tag)
                           ? 'bg-D6C5FD text-49269C'
                           : 'bg-F0F0F0 text-595959'
-                      } text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-16 cursor-pointer`}
+                      } text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-6 cursor-pointer`}
                       onClick={() => {
                         let newTags = [...values.selectedTags];
                         if (newTags.includes(tag)) {
@@ -905,7 +907,7 @@ export default function page(string) {
                 </div>
               </div>
             </div>
-            {warning != "" && <lead className='text-warning text-12'> {warning}</lead>}
+            {warning != "" && <p className='text-warning warning-message'> {warning}</p>}
             <ErrorMessage
               name="selectedTags"
               component="div"

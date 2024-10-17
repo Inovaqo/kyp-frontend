@@ -658,6 +658,11 @@ p {
   color: red;
 }
 
+.warning-message{
+  height: 0;
+  font-size: 12px;
+}
+
 .loader {
   width: 48px;
   height: 48px;
@@ -882,6 +887,16 @@ p {
 
 .dropdown-icon {
   margin-left: -30px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 30%;
+}
+
+.pr-30{
+  padding-right: 30px !important;
 }
 
 @media (max-width: 1500px) {
@@ -1331,3 +1346,5 @@ p {
     width: 100%;
   }
 }
+
+

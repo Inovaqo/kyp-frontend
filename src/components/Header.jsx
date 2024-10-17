@@ -44,9 +44,20 @@ export default function Header() {
       if(text){
         try{
          let response =  await BaseApi.getRecommendations({searchBy:type,search:text})
-             setRecommendation(response.data)
+         let sortedRecomendation = response.data.sort((a, b) => {
+          const lowerText = text.toLowerCase();
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          if (nameA === lowerText) return -1;
+          if (nameB === lowerText) return 1;
+          if (nameA.startsWith(lowerText) && !nameB.startsWith(lowerText)) return -1;
+          if (!nameA.startsWith(lowerText) && nameB.startsWith(lowerText)) return 1;
+          if (nameA.includes(lowerText) && !nameB.includes(lowerText)) return -1;
+          if (!nameA.includes(lowerText) && nameB.includes(lowerText)) return 1;
+          return 0;
+        });
+        setRecommendation(sortedRecomendation);
         }catch(e){
-          console.log("error on recommendation: ",e)
           setNotFound(true);
           setRecommendation([])
         }
@@ -255,6 +266,7 @@ export default function Header() {
                                 borderTopRightRadius: '12px',
                                 borderBottomRightRadius: '12px'
                               }}
+                              onClick={()=>searchProfessor()}
                               className="bg-FFA337 flex items-center justify-center cursor-pointer width-header-search">
                             <Image height={24} width={24} src="/searchIcon.svg" alt="searchIcon"/>
                           </div>

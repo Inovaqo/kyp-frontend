@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useEffect, useRef, useState } from "react";
 import { BaseApi } from "../../app/(base)/BaseApi";
 import PopUp from "../PopUp";
-import { getToken, getUserInfo, setUserInfo } from "../../services/JwtService";
+import { getToken, setUserInfo } from "../../services/JwtService";
 import { useRouter } from "next/navigation";
 import { AuthApi } from "../../app/(auth)/AuthApi";
 import { MdArrowDropDown } from "react-icons/md";
@@ -47,7 +47,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
   const [departmentDropdownOpen, setDepartmentDropdownOpen] = useState(false);
   const departmentdropdownRef = useRef(null);
 
-  // const [image, setImage] = useState(userInfo.image_url?userInfo.image_url:"/user/userImage.png");
   const [image, setImage] = useState(
     userInfo.image_url ? userInfo.image_url : "/student.png"
   );
@@ -58,27 +57,25 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
 
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
-  useEffect(() => {
-    if (selectedInstitute?.label) {
-      setCheckInstituteSelected(false);
-      getDepartments();
-    }
-  }, [selectedInstitute]);
 
-  const getDepartments = async () => {
+  const getDepartments = async (option) => {
     try {
       setDeparmentLoader(true);
-      let department = await AuthApi.getDepartment(selectedInstitute.label);
+      let department = await AuthApi.getDepartment(option.label);
+      let selecteddepartment ;
       if (department.data) {
-        let selecteddepartment = department.data.filter(
+          selecteddepartment = department.data.filter(
           (depart) => depart.label === userInfo.department
         );
         if (selecteddepartment.length === 1) {
           setSelectedDepartment(selecteddepartment[0]);
+        } else {
+          setSelectedDepartment({})
         }
         setDeparment(department.data);
       }
       setDeparmentLoader(false);
+      return selecteddepartment
     } catch (e) {
       setDeparmentLoader(false);
       console.log("error: ", e);
@@ -195,48 +192,26 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
     }
   };
 
-  //   const handleImageUpload = async (event) => {
-  //     setImageLoader(true)
-  //     const file = event.target.files[0];
-  //     const s3 =  new AWS.S3({
-  //       accessKeyId:"AKIA6ODU2336OH4TKAZM",
-  //       secretAccessKey:"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",
-  //       region: 'ap-south-1',
-  //   });
-
-  //   const params = {
-  //       Bucket: 'reactkypprofilepics',
-  //       Key: file.name,
-  //       Body: file,
-  //       ContentType: file.type,
-  //   };
-
-  //   const upload = s3.upload(params);
-  //   const data = await upload.promise();
-  //   console.log("DA?TA______",data)
-  //   setImage(data.Location)
-  //   setImageLoader(false)
-  // }
-
   const getAllInstitute = async () => {
     try {
       setLoading(true);
-      let institute = await AuthApi.getInstitute();
-      console.log("institute ", institute);
-      let instituteOption = institute?.data?.institute?.map(
-        (univerty, index) => {
+      let institutes = await AuthApi.getInstitute();
+      let instituteOption = institutes?.data?.institute?.map(
+        (university, index) => {
           return {
             value: index,
-            label: univerty.name,
+            label: university.name,
           };
         }
       );
       if (instituteOption) {
         let selectedinstitute = instituteOption.filter(
-          (inst) => inst.label === userInfo.institute.name
+          (inst) => inst.label === userInfo?.institute?.name
         );
         if (selectedinstitute.length === 1) {
           setSelectedInstitute(selectedinstitute[0]);
+          setCheckInstituteSelected(false);
+          getDepartments(selectedinstitute[0]);
         }
         setInstitute(instituteOption);
       }
@@ -252,13 +227,12 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
       });
     }
   };
-  console.log("institute ---- : ", institute);
 
   useEffect(() => {
     if (!token) {
       router.push("/");
     }
-    getAllInstitute();
+     getAllInstitute();
 
     const handleClickOutside = (event) => {
       if (
@@ -406,12 +380,19 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   {institute.map((option) => (
                                     <div
                                       key={option.value}
-                                      onClick={() => {
+                                      onClick={async () => {
                                         setFieldValue(
                                           "university",
                                           option.label
                                         );
                                         setSelectedInstitute(option);
+                                          setCheckInstituteSelected(false);
+                                         const selected_department = await getDepartments(option);
+                                        if(selected_department.length>0){
+                                          setFieldValue('field',selected_department[0].label)
+                                        } else {
+                                          setFieldValue('field',"")
+                                        }
                                         setDropdownOpen(false);
                                       }}
                                       style={{
@@ -476,9 +457,8 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   className="text-14"
                                 >
                                   <div>
-                                    {" "}
                                     {department?.find(
-                                      (option) => option === selectedDepartment
+                                      (option) => option.label === selectedDepartment.label
                                     )?.label || "Select Field of study"}
                                   </div>
                                   <div
@@ -539,7 +519,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
                                   First, select a University.
                                 </div>
                               )}
-                              <ErrorMessage name="field" component="div" />
+                              <ErrorMessage className="error-message" name="field" component="div" />
                             </div>
                           </div>
                         </div>
