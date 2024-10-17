@@ -813,7 +813,7 @@ export default function page(string) {
                         values.selectedTags.includes(tag)
                           ? 'bg-D6C5FD text-49269C'
                           : 'bg-F0F0F0 text-595959'
-                      } text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-6 cursor-pointer`}
+                      } text-14 text-weight-400 pa-10 border-radius-6 mr-16 mb-16 cursor-pointer`}
                       onClick={() => {
                         let newTags = [...values.selectedTags];
                         if (newTags.includes(tag)) {
