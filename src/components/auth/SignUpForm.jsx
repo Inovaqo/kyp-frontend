@@ -182,7 +182,7 @@ export default function SignUpForm(props) {
                   }}
                   className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive ${institute.length>0 ? 'cursor-pointer' : ''}`}
                 >
-                  <div style={{display:"flex", justifyContent:"space-between",width: "250px"}} className="text-14">
+                  <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
                       <div className="text-14">
                         {institute.find((option) => option === selectedInstitute)?.label||
                           'Select University'}
@@ -197,7 +197,7 @@ export default function SignUpForm(props) {
                 style={{
                   position: 'absolute',
                   marginTop: '4px',
-                  width: '270px',
+                  width: '100%',
                   borderRadius: '12px',
                   border: '1px solid #D9D9D9',
                   backgroundColor: '#ffffff',
@@ -244,14 +244,14 @@ export default function SignUpForm(props) {
                   }
                   style={{
                     height: '46px',
-                    width: '270px',
+                    width: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
                   className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive  ${department.length>0 ? 'cursor-pointer' : ''}`}
                 >
-                  <div style={{display:"flex", justifyContent:"space-between",width: "250px"}} className="text-14">
+                  <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
                      <div> {department?.find((option) => option === selectedDepartment)?.label||
                       'Select Field of study'}
                       </div>

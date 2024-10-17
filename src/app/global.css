@@ -152,8 +152,16 @@ p {
 .mb-10 {
   margin-bottom: 10px;
 }
+.
 .mb-6 {
   margin-bottom: 6px;
+}
+
+.mb-30{
+    margin-bottom: 30px;
+}
+.mb-32{
+  margin-bottom: 32px;
 }
 .mt-60 {
   margin-top: 60px;
@@ -774,8 +782,8 @@ p {
   color: white;
   font-weight: bold;
   font-size: 24px;
-  height: 67px;
-  width: 67px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
   /* padding-left:10px ;
   padding-right:10px ; */
@@ -974,6 +982,9 @@ p {
 }
 
 @media (max-width: 768px) {
+  .tablet-mb-40{
+    margin-bottom: 40px;
+  }
   .mobile-mt-60{
     margin-top: 60px;
   }
@@ -1144,6 +1155,9 @@ p {
 }
 
 @media (max-width: 576px) {
+  .tablet-mb-40{
+    margin-bottom: 20px;
+  }
   
   .ant-select-selector{
     /* border-radius: 12px !important; */

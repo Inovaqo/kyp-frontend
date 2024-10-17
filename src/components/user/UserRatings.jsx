@@ -187,7 +187,7 @@ export default function UserRatings() {
               <div>
                 {ratings.map((rating, index) => (
                   <div key={"myratings_" + index}>
-                    <div className="flex mb-60 position-relative">
+                    <div className="flex mb-30 tablet-mb-40  position-relative">
                       <div
                         onClick={() => {
                           getDetails(rating.professor.id);
@@ -230,7 +230,7 @@ export default function UserRatings() {
                         </p>
                       </div>
                       <div
-                        style={{ top: "64px", left: "22px" }}
+                        style={{ top: "66px", left: "29px" }}
                         className="position-absolute"
                       >
                         <Image

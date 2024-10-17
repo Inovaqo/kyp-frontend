@@ -523,7 +523,7 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
 
                         <div className=" col-12 mobile-padding-right-0 ">
                           <div className="row ">
-                            <div className="col-12 mb-20 mobile-padding-right-0 ">
+                            <div className="col-12 mb-32 mobile-padding-right-0 ">
                               <label className="text-141414 text-weight-400 text-14 mb-2">
                                 Email
                               </label>
