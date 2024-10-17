@@ -33,7 +33,6 @@ export default function User() {
           const parsedUserInfo = JSON.parse(storedUserInfo); 
           setUserInfo(parsedUserInfo);
         } else {
-          console.log("No user info found");
         }
         setLoader(false)
       } catch (error) {

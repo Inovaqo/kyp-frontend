@@ -60,9 +60,13 @@ export default function ProfessorsList({professors,updateProfessors,professorlis
             <span className="text-1F1F1F text-weight-600">{professor.take_again}%&nbsp;</span> Take Again&nbsp;|&nbsp;
             <span className="text-1F1F1F text-weight-600">{professor.love_teaching_style}%&nbsp;</span> love the teaching style
           </p>
-          {token &&(<div className="flex items-center">
+          <div className="flex items-center">
             <button
-              onClick={()=>goToReviewPage(professor)}
+              onClick={()=>{
+                if(!token){
+                  router.push('/login')
+                }
+                goToReviewPage(professor)}}
               style={{ height: '36px' }}
               className="cursor-pointer px-12 flex items-center justify-between  text-18 flex justify-center items-center bg-763FF9 text-ffffff border-color-763FF9 border-radius-4 professor-text-13">
               Write a Review
@@ -72,7 +76,17 @@ export default function ProfessorsList({professors,updateProfessors,professorlis
               ? 
               <span className='savedloader ml-12'></span>
               :
-            <div onClick={()=>{if(!disableButton){saveProfessor(professor.id,professor.is_saved)}}} className={`ml-12 ${!disableButton && 'cursor-pointer'}`}>
+            <div onClick={()=>{
+              if(token){
+                if(!disableButton){
+                  saveProfessor(professor.id,professor.is_saved)
+                }
+              } else {
+                router.push('/login')
+              }
+              
+            }} 
+              className={`ml-12 ${!disableButton && 'cursor-pointer'}`}>
               {/* <svg onClick={()=>{saveProfessor(professor.id,professor.is_saved)}} width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M11.3721 15.4746C11.2438 15.4746 11.1148 15.4416 11.0001 15.3756L6.12207 12.5879L1.24407 15.3756C1.01157 15.5084 0.72657 15.5076 0.49557 15.3734C0.26457 15.2391 0.12207 14.9916 0.12207 14.7246V2.72461C0.12207 1.48411 1.13157 0.474609 2.37207 0.474609H9.87207C11.1126 0.474609 12.1221 1.48411 12.1221 2.72461V14.7246C12.1221 14.9916 11.9803 15.2391 11.7486 15.3734C11.6323 15.4409 11.5026 15.4746 11.3721 15.4746ZM6.12207 10.9746C6.25032 10.9746 6.37857 11.0076 6.49407 11.0736L10.6221 13.4316V2.72461C10.6221 2.31136 10.2861 1.97461 9.87207 1.97461H2.37207C1.95882 1.97461 1.62207 2.31136 1.62207 2.72461V13.4316L5.75007 11.0729C5.86557 11.0076 5.99382 10.9746 6.12207 10.9746Z"
@@ -87,7 +101,7 @@ export default function ProfessorsList({professors,updateProfessors,professorlis
             }
             </div>
             }
-          </div>)}
+          </div>
         </div>
         <div className='larger-mobile-px-20'>
           <div className="flex professor-review-center" style={{height:'fit-content'}}>

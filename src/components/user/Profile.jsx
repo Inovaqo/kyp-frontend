@@ -78,7 +78,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
       return selecteddepartment
     } catch (e) {
       setDeparmentLoader(false);
-      console.log("error: ", e);
       setDeparment([]);
       setPopup({
         show: true,
@@ -171,7 +170,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
           });
         });
       } catch (e) {
-        console.log("error--------", e);
         setSavePasswordLoader(false);
         if (e?.message?.includes("Network")) {
           setPopup({
@@ -218,7 +216,6 @@ export default function Profile({ userInfo, setUserProfileInfo }) {
       setLoading(false);
     } catch (e) {
       setLoading(false);
-      console.log("error: ", e);
       setPopup({
         show: true,
         type: "error",

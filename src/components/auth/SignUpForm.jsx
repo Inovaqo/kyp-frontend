@@ -45,24 +45,18 @@ export default function SignUpForm(props) {
       .required('Required'),
   });
 
-  console.log("institute ---- : ",institute)
-  console.log("selected: ",selectedDepartment)
-
   const getDepartments = async () =>{
     try{
       setDeparmentLoader(true);
       let department = await AuthApi.getDepartment(selectedInstitute.label);
-      console.log("department ",department);
       setDeparment(department.data)
       setDeparmentLoader(false);
     } catch (e){
       setDeparmentLoader(false);
-      console.log("error: ",e)
       setDeparment([])
       setPopup({show:true,type:'error',message:error.message,timeout:3000});
     }
   }
-  console.log("institute ---- : ",institute)
   useEffect(()=>{
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -87,7 +81,6 @@ export default function SignUpForm(props) {
   },[selectedInstitute])
 
   const handleSubmit = async (values) => {
-    console.log("values---------: ",values)
     try {
       setLoading(true);
       await AuthApi.signup({
@@ -114,11 +107,9 @@ export default function SignUpForm(props) {
 
 
   const handleGoogleLoginSuccess = async (res) => {
-    console.log('Google Credential Response:', res);
 
     try {
       const decoded = jwtDecode(res.credential);
-      console.log('Decoded:', decoded);
       const email = decoded.email;
       const first_name=decoded.given_name;
       const last_name=decoded.family_name;

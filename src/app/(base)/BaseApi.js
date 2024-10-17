@@ -31,7 +31,6 @@ export const BaseApi = {
     }
   },
   saveProfessor:async (data) => {
-    console.log(data);
     try {
       return await BaseApiService.saveProfessor(data)
       .then((response)=>{

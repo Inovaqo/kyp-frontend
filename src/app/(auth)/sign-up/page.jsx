@@ -12,7 +12,6 @@ export default function page(){
     try{
       setInstituteLoading(true);
       let institute = await AuthApi.getInstitute();
-      console.log("institute ",institute);
       institute?.data?.institute?.map((univerty,index)=>{
         setInstitute((prev)=>[...prev ,{
           value:index,
@@ -22,11 +21,9 @@ export default function page(){
       setInstituteLoading(false);
     } catch (e){
       setInstituteLoading(false);
-      console.log("error: ",e)
       // setPopup({show:true,type:'error',message:error.message,timeout:3000});
     }
   }
-  console.log("institute ---- : ",institute)
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(()=>{
     getAllInstitute();

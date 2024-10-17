@@ -37,7 +37,6 @@ export default function page(){
       setLoading(true)
       await BaseApi.getReview({id:slug})
         .then((response)=>{
-          console.log("response: ",response)
           if(response.data=={}){
             router.push("/")
           }
@@ -45,7 +44,6 @@ export default function page(){
           setLoading(false)
         })
     }catch(e){
-      console.log(e)
       router.push("/")
       setLoading(false)
     }
