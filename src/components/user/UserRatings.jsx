@@ -17,6 +17,7 @@ export default function UserRatings() {
   const [ratings, setRatings] = useState([]);
   const [ratingsData, setRatingsData] = useState({});
   const [loading,setLoading] = useState(true);
+  const [focused, setFocused] = useState(false);
   const searchProfessor= ()=>{
     if(search === ''){
       setSearchCheck('Search field can not be empty')
@@ -98,7 +99,10 @@ export default function UserRatings() {
             if (searchCheck !== '') {
               setSearchCheck('')
             }
-          }} className="px-20 search-input-field rating-input mobile-border-right "
+          }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+           className="px-20 search-input-field rating-input mobile-border-right "
                  placeholder={type === 'name' ? 'Search professor by name' : 'Search for professors by university.'}
                  onKeyDown={(event)=>{
                   if (event.key === 'Enter') {
@@ -106,7 +110,19 @@ export default function UserRatings() {
                   }
                 }}
                 />
-            <span className='search-icon cursor-pointer' onClick={()=>{getRatings("","",),setSearch("")}} ><MdClear /></span>
+                  { focused &&
+                      <span
+                        className="search-icon cursor-pointer "
+                        onMouseDown={(event) => {
+                          event.stopPropagation();
+                          getRatings("","",);
+                          setSearch("")
+                          
+                        }}
+                      >
+                        <MdClear />
+                      </span>
+                    }
           </div>
           </div>
           <div

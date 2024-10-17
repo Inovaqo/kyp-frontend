@@ -1338,9 +1338,12 @@ p {
 }
 
 .search-icon {
-  padding: 5px;
-  padding-bottom: 24.9px;
-  padding-top: 26.2px;
-  border-bottom: 1px solid #d9d9d9;
-  border-top: 1px solid #d9d9d9;
+  padding: 0px;
+  margin: 0px !important;
+  position: relative;
+  left: -25px;
+}
+
+.pr-30{
+  padding-right: 30px !important;
 }
