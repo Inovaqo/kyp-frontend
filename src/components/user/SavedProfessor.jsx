@@ -1,6 +1,6 @@
 import ProfessorsList from "../ProfessorsList";
 import Image from "next/image";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { BaseApi } from "../../app/(base)/BaseApi";
 import CustomDropdown from "./CustomDropdown.";
 import { getToken } from "../../services/JwtService";
@@ -124,7 +124,7 @@ export default function SavedProfessor() {
                     onSelect={setType}
                     placeholder="Select"
                   />
-                  <div style={{position:"relative"}} >
+                  <div className="position-relative full-width"  >
                     <input
                       value={search}
                       onChange={(event) => {
@@ -147,19 +147,18 @@ export default function SavedProfessor() {
                         }
                       }}
                     />
-                    { focused &&
+                    {focused && (
                       <span
                         className="search-icon cursor-pointer "
                         onMouseDown={(event) => {
                           event.stopPropagation();
                           getProfessors("", "");
                           setSearch("");
-                          
                         }}
                       >
                         <MdClear />
                       </span>
-                    }
+                    )}
                   </div>
                 </div>
                 <div
