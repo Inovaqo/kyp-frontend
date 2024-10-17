@@ -5,6 +5,7 @@ import CustomDropdown from './CustomDropdown.';
 import { BaseApi } from '../../app/(base)/BaseApi';
 import {getToken} from '../../services/JwtService';
 import { useRouter } from 'next/navigation';
+import { MdClear } from "react-icons/md";
 
 export default function UserRatings() {
   const token = getToken();
@@ -91,6 +92,7 @@ export default function UserRatings() {
             <CustomDropdown  selectedValue={type}
                              onSelect={setType}
                              placeholder="Select"/>
+          <div>                 
           <input value={search} onChange={(event) => {
             setSearch(event.target.value);
             if (searchCheck !== '') {
@@ -104,6 +106,8 @@ export default function UserRatings() {
                   }
                 }}
                 />
+            <span className='search-icon cursor-pointer' onClick={()=>{getRatings("","",),setSearch("")}} ><MdClear /></span>
+          </div>
           </div>
           <div
             onClick={()=>{

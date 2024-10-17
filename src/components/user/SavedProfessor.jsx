@@ -5,6 +5,7 @@ import { BaseApi } from '../../app/(base)/BaseApi';
 import CustomDropdown from './CustomDropdown.';
 import {getToken}  from '../../services/JwtService'
 import { useRouter } from 'next/navigation';
+import { MdClear } from "react-icons/md";
 
 export default function SavedProfessor() {
   const token = getToken();
@@ -16,19 +17,19 @@ export default function SavedProfessor() {
   const [professors, setProfessors] = useState([]);
   const [professorsData, setProfessorsData] = useState({});
   const [loading,setLoading] = useState(true);
+  const [total,setTotal] = useState(0)
 
   const updateProfessors = (professorId) => {
-    console.log('professorId', professorId);
     const updatedProfessors = professors.filter(professor =>
       !(professor.id === professorId )
     );
-    if(updatedProfessors.length === 0 && professorsData.page < professorsData.total) {
-      getProfessors(type, search, false,  1);
+    if(updatedProfessors.length === 0 && professorsData.total>0) {
+      // getProfessors(type, search, false,1);
+        getProfessors();
     }
-    setProfessors(updatedProfessors);
     let tempProfessorData = professorsData;
     tempProfessorData.total = tempProfessorData.total -1;
-    setProfessorsData(tempProfessorData);
+    setProfessors(updatedProfessors);
   }
 
   const searchProfessor = ()=>{
@@ -40,23 +41,22 @@ export default function SavedProfessor() {
       setSearchCheck('')
     }
   }
-  const getProfessors = async (searchBy=type,text=search,seeMore= false,page=1,showMore=false)=>{
-    console.log(" text: ",text," search by: ",searchBy)
+  const getProfessors = async (searchBy=type,text=search,seeMore= false,startIndex=0,endIndex=5,showMore=false)=>{
     try{
       showMore? setShowMoreLoader(true): setLoading(true)
-      await BaseApi.SavedProfessors({searchBy:searchBy,search:text,page:page})
+      await BaseApi.SavedProfessors({searchBy:searchBy,search:text,startIndex:startIndex,endIndex:endIndex})
         .then((response)=>{
           console.log('response----', response);
-          if(seeMore){
-            let tempProfessors = professors;
-            tempProfessors = tempProfessors.concat(response.data.data);
+          if (seeMore) {
+            let tempProfessors = [...professors];
+            tempProfessors.splice(startIndex, endIndex - startIndex, ...response.data.data);
             console.log('tempProfessors:', tempProfessors);
             setProfessors(tempProfessors);
-          }else{
-            console.log(response.data.data);
+          } else {
             setProfessors(response.data.data);
           }
           setProfessorsData(response.data)
+          setTotal(response.data.total)
           showMore? setShowMoreLoader(false):  setLoading(false)
         })
     }catch(e){
@@ -66,12 +66,15 @@ export default function SavedProfessor() {
       showMore? setShowMoreLoader(false):  setLoading(false)
     }
   }
+  useEffect(()=>{
+    setSearch('')
+},[type])
 
   useEffect(() => {
     if(!token){
       router.push('/')
     }
-    getProfessors("");
+    getProfessors();
   }, []);
 return<>
  { loading
@@ -89,6 +92,7 @@ return<>
           <CustomDropdown selectedValue={type}
                           onSelect={setType}
                           placeholder="Select" />
+                          <div>
           <input value={search} onChange={(event) => {
             setSearch(event.target.value);
             if (searchCheck !== '') {
@@ -102,6 +106,8 @@ return<>
                   }
                 }}
                  />
+                 <span className='search-icon cursor-pointer' onClick={()=>{getProfessors("",""),setSearch("")}} ><MdClear /></span>
+                 </div>
         </div>
         <div
           onClick={searchProfessor}
@@ -123,9 +129,9 @@ return<>
     {professors.length>0 ?
     (<div>
       <ProfessorsList professors={professors} updateProfessors={updateProfessors} />
-      {Number(professorsData.page) < professorsData.lastPage && (<div className="flex items-center justify-center mt-4">
+      {Math.ceil(Number(professors.length/5)) < Math.ceil(Number((total/5))) && (<div className="flex items-center justify-center mt-4">
         <div className="text-weight-600 text-763FF9 text-24 cursor-pointer" onClick={() => {
-          getProfessors(type, search, true, Number(professorsData.page) + 1,true);
+          getProfessors(type, search, true, professors.length,professors.length + ((professors.length%5)>0 && (5-professors.length%5)) + 5,true);
         }}>
              <div className='see-div'>{ showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} </div> 
               {/* { showmoreLoader ?<div className="seeMoreLoader"></div> :  <div>See more</div>} */}

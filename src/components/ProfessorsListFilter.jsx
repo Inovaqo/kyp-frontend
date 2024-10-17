@@ -49,7 +49,7 @@ export default function ProfessorsListFilter(){
   const getProfessors = async (searchBy=type,text=search,concatCheck = false, page=1,showMore=false,option_selected=false)=>{
       try{
        showMore? setShowMoreLoader(true): setLoading(true)
-        await BaseApi.getProfessors({sortField:option_selected ? searchBy : sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page})
+        await BaseApi.getProfessors({sortField:option_selected ? searchBy : sort,sortOrder:sortOrder?'ASC':'DESC',searchBy:searchBy,search:text,page:page,search_empty: searchParams.get('search') ? false : true})
           .then((response)=>{
             if(concatCheck){
               let tempProfessors = professors;
