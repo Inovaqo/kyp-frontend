@@ -168,7 +168,7 @@ export default function SignUpForm(props) {
               />
               <ErrorMessage className="error-message" name="lastName" component="div" />
             </div>
-            <div className="col-md-6 col-12 pl-15 mb-32" ref={dropdownRef}>
+            <div className="col-md-6 col-12 pl-15 mb-32 " ref={dropdownRef}>
               <label className="text-141414 text-weight-400 text-14 mb-2">University</label>
                 <div
                   onClick={() => setDropdownOpen(!DropdownOpen)
@@ -180,7 +180,7 @@ export default function SignUpForm(props) {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
-                  className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive ${institute.length>0 ? 'cursor-pointer' : ''}`}
+                  className={`position-relative px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive ${institute.length>0 ? 'cursor-pointer' : ''}`}
                 >
                   <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
                       <div className="text-14">
@@ -191,8 +191,7 @@ export default function SignUpForm(props) {
                         <MdArrowDropDown  size={20} />
                       </div>
                   </div>
-                </div>
-                {DropdownOpen && (
+                  {DropdownOpen && (
               <div
                 style={{
                   position: 'absolute',
@@ -204,6 +203,8 @@ export default function SignUpForm(props) {
                   zIndex: 10,
                   maxHeight: '200px',
                   overflow:"auto",
+                  top:"46px",
+                  left:"0",
                 }}
                 className="px-10 text-14 border-color-D9D9D9"
               >
@@ -225,6 +226,8 @@ export default function SignUpForm(props) {
                 ))}
               </div>
             )}
+                </div>
+                
               <ErrorMessage name="school" component="div" />
             </div>
             <div className="col-md-6 col-12 pl-15 mb-32" ref={departmentdropdownRef} >
