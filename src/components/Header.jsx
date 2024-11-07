@@ -34,7 +34,7 @@ export default function Header() {
   const debouncedGetRecommendations = useCallback(
     debounce(async (text,type) => {
       await getRecommendations(text,type);
-    }, 500), []
+    }, 1000), []
   );
 
   const mockVal = (str, repeat = 1) => ({
@@ -73,7 +73,7 @@ export default function Header() {
     ),
   });
 
-  const options = recommendation
+  const options = recommendation && search
     ? recommendation.map((recommend) =>
         renderItem(recommend.name, recommend.department_name, recommend.institute_name,recommend.id)
       )

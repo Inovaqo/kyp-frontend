@@ -197,7 +197,7 @@ export default function SignUpForm(props) {
                   position: 'absolute',
                   marginTop: '4px',
                   width: '100%',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   border: '1px solid #D9D9D9',
                   backgroundColor: '#ffffff',
                   zIndex: 10,
@@ -255,7 +255,7 @@ export default function SignUpForm(props) {
                   className={`px-20 border-radius-4 bg-transparent text-394560 border-color-D9D9D9 full-width-responsive  ${department.length>0 ? 'cursor-pointer' : ''}`}
                 >
                   <div style={{display:"flex", justifyContent:"space-between",width: "100%"}} className="text-14">
-                     <div> {department?.find((option) => option === selectedDepartment)?.label||
+                     <div> {department?.find((option) => option === selectedDepartment)?.label ?  selectedDepartment?.label?.length>30 ?  selectedDepartment?.label?.slice(0,30)+ "..." : selectedDepartment?.label : 'Select Field of study' ||
                       'Select Field of study'}
                       </div>
                       <div style={{display:"flex",justifyContent:"center", alignItems:"center"}} >
@@ -271,7 +271,7 @@ export default function SignUpForm(props) {
                   position: 'absolute',
                   marginTop: '4px',
                   width: '270px',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   border: '1px solid #D9D9D9',
                   backgroundColor: '#ffffff',
                   zIndex: 10,

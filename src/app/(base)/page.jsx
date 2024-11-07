@@ -213,21 +213,21 @@ export default function Page() {
             </div>
             <div className="row gx-4 gy-4 mobile-font-24">
               <div className="col-xl-4 col-lg-12">
-                <div className="bg-56ABFF pa-40 border-radius-20 flex column items-center">
-                  <Image height={302} width={302} src="/homePageSectionOne.png" alt="" />
+                <div className="bg-56ABFF pa-40 border-radius-20 flex column items-center home-page-card">
+                  <Image height={302} width={302} src="/HomePageCardOne.svg" alt="" />
                   <p className="text-ffffff text-38 text-weight-600 text-center">Manage and edit your ratings</p>
                 </div>
               </div>
               <div className="col-xl-4 col-lg-12">
-                <div className="bg-A9A8F6 pa-40 border-radius-20 flex column items-center">
-                  <Image height={302} width={302} src="/index/indexSectionTwoImageTwo.png" alt="" />
-                  <p className="text-ffffff text-38 text-weight-600 text-center">Manage and edit your ratings</p>
+                <div className="bg-A9A8F6 pa-40 border-radius-20 flex column items-center home-page-card">
+                  <Image height={302} width={302} src="/HomePageCardtwo.svg" alt="" />
+                  <p className="text-ffffff text-38 text-weight-600 text-center">Your ratings are always anonymous</p>
                 </div>
               </div>
               <div className="col-xl-4 col-lg-12">
-                <div className="bg-FFBFA7 pa-40 border-radius-20 flex column items-center">
-                  <Image height={302} width={302} src="/index/indexSectionTwoImageThree.png" alt="" />
-                  <p className="text-ffffff text-38 text-weight-600 text-center">Manage and edit your ratings</p>
+                <div className="bg-FFBFA7 pa-40 border-radius-20 flex column items-center home-page-card">
+                  <Image height={302} width={302} src="/HomePageCardThird.svg" alt="" />
+                  <p className="text-ffffff text-38 text-weight-600 text-center">Like or dislike ratings</p>
                 </div>
               </div>
             </div>

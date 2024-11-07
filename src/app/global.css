@@ -906,10 +906,17 @@ p {
   padding-right: 30px !important;
 }
 
+.home-page-card{
+  height: 496px;
+}
+
 @media (max-width: 1500px) {
   .home-section-tablet-img img {
     width: 628px;
 
+  }
+  .home-page-card{
+    height: 550px;
   }
 }
 @media (max-width: 1300px) {
@@ -925,6 +932,9 @@ p {
   }
   .home-page-image-mt-40{
     margin-top: 40px;
+  }
+  .home-page-card{
+    height: 100%;
   }
 }
 

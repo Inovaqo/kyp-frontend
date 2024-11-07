@@ -527,7 +527,7 @@ export default function page(string) {
                         </div>
                       ))
                       :
-                      <div >  </div>
+                      <div className='selected' > Create </div>
                     )}
                   </div>
                   </div>
@@ -763,7 +763,7 @@ export default function page(string) {
                         position: 'absolute',
                         marginTop:"4px",
                         width: '200px',
-                        borderRadius: '12px',
+                        borderRadius: '4px',
                         border: '1px solid #D9D9D9',
                         backgroundColor: '#ffffff',
                         zIndex: 10,

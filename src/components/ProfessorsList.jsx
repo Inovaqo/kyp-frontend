@@ -58,7 +58,7 @@ export default function ProfessorsList({professors,updateProfessors,professorlis
           <p className="text-14 text-weight-400 text-595959">{professor.department_name} . {professor.institute_name}</p>
           <p className="text-14 text-weight-400 text-595959 mb-18">
             <span className="text-1F1F1F text-weight-600">{professor.take_again}%&nbsp;</span> Take Again&nbsp;|&nbsp;
-            <span className="text-1F1F1F text-weight-600">{professor.love_teaching_style}%&nbsp;</span> love the teaching style
+            <span className="text-1F1F1F text-weight-600">{professor.love_teaching_style}%&nbsp;</span> Love Teaching Style
           </p>
           <div className="flex items-center">
             <button

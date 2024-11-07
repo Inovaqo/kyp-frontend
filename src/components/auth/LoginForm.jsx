@@ -28,10 +28,10 @@ export default function LoginForm() {
       .required('Required'),
   });
   const handleSubmit = async (values) => {
+    setLoading(true)
+
     try {
-      setLoading(true);
       await AuthApi.login({ email: values.email,password: values.password }).then(()=>{
-        setLoading(false)
         router.push('/')
       })
     } catch (error) {
@@ -50,6 +50,8 @@ export default function LoginForm() {
           timeout: 3000,
         });
       }
+    }finally{
+      setLoading(false)
     }
   };
 
