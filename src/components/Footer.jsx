@@ -49,7 +49,7 @@ export default function Footer() {
             <div className="flex mobile-justify-center mobile-py-20">
               <p className="mr-24 text-16 text-weight-400 text-262626 cursor-pointer" onClick={()=>{setActiveText(termsOfService);setIsModalOpen(true)}} >Terms of Service</p>
               <p className="text-16 text-weight-400 text-262626 cursor-pointer mr-24" onClick={()=>{setActiveText(privacyPolicy);setIsModalOpen(true)}}>Privacy Policy</p>
-              <p className="text-16 text-weight-400 text-262626 cursor-pointer" onClick={()=>{setModalContact(true)}} >Contact us</p>
+              {/* <p className="text-16 text-weight-400 text-262626 cursor-pointer" onClick={()=>{setModalContact(true)}} >Contact us</p> */}
               
             </div>
           </div>
