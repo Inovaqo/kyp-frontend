@@ -24,6 +24,9 @@ p {
 .pa-10 {
   padding: 10px;
 }
+.pxy-10-15{
+  padding: 10px 15px;
+}
 .px-40 {
   padding-left: 40px;
   padding-right: 40px;
@@ -909,6 +912,29 @@ p {
 .home-page-card{
   height: 496px;
 }
+
+
+.tour-popup .ant-modal-content{
+  border-radius: 20px !important;
+  }
+  .term-privicy-popup h1{
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 6px;
+  }
+  .term-privicy-popup h2{
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 6px;
+  }
+  .term-privicy-popup p{
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 20px;
+  }
 
 @media (max-width: 1500px) {
   .home-section-tablet-img img {
