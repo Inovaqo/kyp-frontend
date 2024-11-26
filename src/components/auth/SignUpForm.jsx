@@ -9,6 +9,10 @@ import { useRouter } from 'next/navigation';
 import {  GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
 import { MdArrowDropDown } from "react-icons/md";
+import { Modal } from 'antd';
+import { privacyPolicy, termsOfService } from '@/utlis/constant';
+
+
 
 export default function SignUpForm(props) {
   const router = useRouter();
@@ -23,6 +27,9 @@ export default function SignUpForm(props) {
   const [departmentDropdownOpen, setDepartmentDropdownOpen] = useState(false);
   const [toggleCheck, setToggleCheck] = useState(false);
   const [popup, setPopup] = useState({show:false,type:'',message:'',timeout:0});
+  const [activeText, setActiveText] = useState(privacyPolicy);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dropdownRef = useRef(null);
   const departmentdropdownRef = useRef(null);
   const validationSchema = Yup.object({
@@ -114,7 +121,7 @@ export default function SignUpForm(props) {
       const first_name=decoded.given_name;
       const last_name=decoded.family_name;
       const image_url = decoded.picture;
-
+      
       await AuthApi.signup({ email,first_name, last_name, image_url, isGmail:true  }).then(() => {
         setPopup({
           show: true,
@@ -323,7 +330,7 @@ export default function SignUpForm(props) {
               <input className="cursor-pointer" style={{ width: '16px', height: '16px' }} type="checkbox"
                      name="toggleCheck" checked={toggleCheck} onChange={handleToggleChange} />
               <label className="ml-8 text-weight-400 text-1F1F1F text-12">I agree to&nbsp;<span
-                className="text-0378A6">Terms of Services</span>&nbsp;and&nbsp;<span className="text-0378A6">Privacy Policy</span>.</label>
+                className="text-0378A6" onClick={()=>{setActiveText(termsOfService);setIsModalOpen(true)}}>Terms of Services</span>&nbsp;and&nbsp;<span className="text-0378A6" onClick={()=>{setActiveText(privacyPolicy);setIsModalOpen(true)}}>Privacy Policy</span>.</label>
             </div>
             <div className="col-12">
               <button
@@ -352,5 +359,10 @@ export default function SignUpForm(props) {
       </p>
     </div>
     <PopUp props={popup}/>
+    <Modal className="tour-popup" open={isModalOpen} footer={[]}  width={500} onCancel={()=>{setIsModalOpen(false)}} title={activeText.title}>
+          <div className="overflowy-auto term-privicy-popup mt-24" >
+            <div  style={{height: '400px', overflowY:"auto"}}  dangerouslySetInnerHTML={{__html: activeText.html}}/>
+          </div>
+        </Modal>
     </>
 }

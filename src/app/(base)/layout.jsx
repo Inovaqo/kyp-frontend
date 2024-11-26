@@ -4,6 +4,8 @@ import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import {Suspense} from "react";
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+
 
 export const metadata = {
   title: 'KYP',
@@ -13,7 +15,9 @@ export const metadata = {
 export default function BaseLayout({ children }) {
   return (
     <html lang="en">
+      <GoogleAnalytics/>
     <body>
+      
     <Suspense>
       <Header />
     </Suspense>

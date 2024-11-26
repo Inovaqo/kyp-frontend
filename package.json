@@ -11,7 +11,7 @@
   "dependencies": {
     "@azure-rest/ai-content-safety": "^1.0.0",
     "@react-oauth/google": "^0.12.1",
-    "antd": "^5.21.0",
+    "antd": "^5.22.2",
     "axios": "^1.7.7",
     "bad-words": "^4.0.0",
     "bootstrap": "^5.3.3",
