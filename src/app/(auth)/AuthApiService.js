@@ -7,4 +7,5 @@ export const AuthApiService = {
   forgetPassword: (data) => unAuthorizedApi.post('/auth/forget-password',data),
   resetPassword: (data) => unAuthorizedApi.post(`/auth/reset-password`,data),
   logout: (data) => unAuthorizedApi.post(`/auth/logout`,data),
+  sendemail:(data) => unAuthorizedApi.post('/auth/send-email',data)
 };

@@ -15,6 +15,7 @@ import OpenAI from 'openai';
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 
+
 export default function page(string) {
   const client = new OpenAI({
     apiKey: process.env.NEXT_PUBLIC_GPT_SECRET_KEY || "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",
@@ -81,6 +82,12 @@ export default function page(string) {
   const filter = new Filter();
   filter.addWords(...abusiveWords)
   const validationSchema = Yup.object({
+    course: Yup.object()
+    .shape({
+      value: Yup.string().required('Course must be selected'),
+    })
+    .nullable()
+    .required('Course must be selected'),
     ratings: Yup.array()
     .of(
       Yup.object({
@@ -116,12 +123,7 @@ export default function page(string) {
     selectedTags: Yup.array()
     .min(1, 'Select at least one tag.')
     .max(3, 'You can select up to 3 tags only.'),
-    course: Yup.object()
-    .shape({
-      value: Yup.string().required('Course must be selected'),
-    })
-    .nullable()
-    .required('Course must be selected'),
+   
     gradeReceived:Yup.object()
     .shape({
       value: Yup.string().required('Grade must be selected'),
@@ -305,6 +307,8 @@ export default function page(string) {
   };
 
   const submitRating = async () => {
+  
+  
     try{
       setSubmitLoader(true);
       if(!token){
@@ -378,6 +382,7 @@ export default function page(string) {
       }
   }
   }
+  
 
 
   return (
@@ -392,8 +397,12 @@ export default function page(string) {
 
      onSubmit={()=>submitRating()}
    >
-     {({ values, setFieldValue }) => (
+     {({ values, setFieldValue, errors,  }) => {
+     console.log("🚀 ~ page ~ errors:", errors)
+    
+    return(
        <Form>
+        
       <main>
         <section>
           <div className="px-120 py-60 tablet-px-90 tablet-px-50 mobile-px-20">
@@ -415,7 +424,7 @@ export default function page(string) {
               </span>
             </p>
             <div className="separator-x mb-60"></div>
-            <div className="flex items-center mb-32 professor-mobile-results-selection  ">
+            <div className="flex items-center mb-32 professor-mobile-results-selection  " id='course'>
               <div className='mobile-full-width'>
                 <div className='input-container'>
               <input 
@@ -556,6 +565,7 @@ export default function page(string) {
             </div>
             <div className="full-width border-color-D9D9D9 border-radius-8 pa-24 mb-24">
             <div
+            id="ratings"
                 key={'overall'}
                 // style={{height:"50px"}}
                 className={`full-width flex justify-between items-center professor-mobile-results-selection`}
@@ -590,7 +600,7 @@ export default function page(string) {
                 </div>
               </div>
             </div>
-            <div className="full-width border-color-D9D9D9 border-radius-8 pa-24 mb-24">
+            <div className="full-width border-color-D9D9D9 border-radius-8 pa-24 mb-24"  id="ratings">
             {values.ratings.map((item, index) => (
               <div
                 key={'ratings-rates-' + index}
@@ -724,7 +734,7 @@ export default function page(string) {
               ))}
 
               {/* Select Grade */}
-              <div className="full-width flex justify-between items-center professor-mobile-results-selection">
+              <div className="full-width flex justify-between items-center professor-mobile-results-selection" id="gradeReceived">
                 <p className="text-weight-600 text-18 text-1F1F1F">
                   Select grade received
                 </p>
@@ -801,7 +811,7 @@ export default function page(string) {
             </div>
 
             {/* Add tags */}
-            <div  className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24">
+            <div  className="full-width border-color-D9D9D9 border-radius-8 px-16 pt-16 mb-24" id='selectedTags'>
             <p className="text-weight-600 text-18 text-1F1F1F mb-32">Select up to 3 tags</p>
             <div className="row full-width">
               <div className="col-12 ">
@@ -844,7 +854,7 @@ export default function page(string) {
           </div>
 
             {/* Write Review */}
-            <div className="full-width border-color-D9D9D9 border-radius-8 pa-16">
+            <div className="full-width border-color-D9D9D9 border-radius-8 pa-16" id="review">
               <p className="text-weight-600 text-18 text-1F1F1F mb-12">
                 Write a Review*
               </p>
@@ -972,7 +982,8 @@ export default function page(string) {
         <PopUp props={popup} />
       </main>
       </Form>
-      )}
+      )
+  }}
     </Formik>
       }
      </>)
