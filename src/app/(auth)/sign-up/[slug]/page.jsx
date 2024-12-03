@@ -9,6 +9,7 @@ export default function page(){
   const [instituteloading,setInstituteLoading] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [institute,setInstitute] = useState([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { slug } = useParams(); 
   // console.log(router.query.slug)
   const code =slug;
