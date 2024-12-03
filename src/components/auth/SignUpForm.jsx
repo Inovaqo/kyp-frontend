@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { useState, useEffect,useRef } from 'react';
 import {AuthApi} from '@/app/(auth)/AuthApi';
 import PopUp from '../PopUp';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {  GoogleLogin } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
 import { MdArrowDropDown } from "react-icons/md";
 import { Modal } from 'antd';
 import { privacyPolicy, termsOfService } from '@/utlis/constant';
-
+import { Switch } from "antd";
 
 
 export default function SignUpForm(props) {
@@ -30,8 +30,12 @@ export default function SignUpForm(props) {
   const [activeText, setActiveText] = useState(privacyPolicy);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
   const dropdownRef = useRef(null);
   const departmentdropdownRef = useRef(null);
+  const search = useSearchParams();
+
   const validationSchema = Yup.object({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -51,6 +55,10 @@ export default function SignUpForm(props) {
     password: Yup.string()
       .required('Required'),
   });
+
+  const handleToggle = (checked) => {
+    setIsActive(checked);
+  };
 
   const getDepartments = async () =>{
     try{
@@ -150,6 +158,14 @@ export default function SignUpForm(props) {
     });
   };
 
+  useEffect(() => {
+    if(props.code){
+      setIsActive(true)
+    }
+
+  }, [props.code])
+  
+
   return<>
     <Formik
       initialValues={{ firstName:'',lastName:'',school:'',field:'',email: '',password:'', field:'' }}
@@ -159,7 +175,7 @@ export default function SignUpForm(props) {
       {({ errors, touched,setFieldValue }) => (
         <Form>
           <div className="row  ">
-            <div className="col-md-6 col-12 pl-15 mb-32">
+            <div className="col-md-6 col-12 pl-15 mb-20">
               <label className="text-141414 text-weight-400 text-14 mb-2">First Name</label>
               <Field type="text" name="firstName"
                      style={{ height: '46px' }}
@@ -167,7 +183,7 @@ export default function SignUpForm(props) {
               />
               <ErrorMessage className="error-message" name="firstName" component="div" />
             </div>
-            <div className="col-md-6 col-12 pl-15 mb-32">
+            <div className="col-md-6 col-12 pl-15 mb-20">
               <label className="text-141414 text-weight-400 text-14 mb-2">Last Name</label>
               <Field type="text" name="lastName"
                      style={{ height: '46px' }}
@@ -175,7 +191,7 @@ export default function SignUpForm(props) {
               />
               <ErrorMessage className="error-message" name="lastName" component="div" />
             </div>
-            <div className="col-md-6 col-12 pl-15 mb-32 " ref={dropdownRef}>
+            <div className="col-md-6 col-12 pl-15 mb-20 " ref={dropdownRef}>
               <label className="text-141414 text-weight-400 text-14 mb-2">University</label>
                 <div
                   onClick={() => setDropdownOpen(!DropdownOpen)
@@ -237,7 +253,7 @@ export default function SignUpForm(props) {
                 
               <ErrorMessage name="school" component="div" />
             </div>
-            <div className="col-md-6 col-12 pl-15 mb-32" ref={departmentdropdownRef} >
+            <div className="col-md-6 col-12 pl-15 mb-20" ref={departmentdropdownRef} >
               <label className="text-141414 text-weight-400 text-14 mb-2">Field of study</label>
                <div
                   onClick={() => {
@@ -309,7 +325,7 @@ export default function SignUpForm(props) {
               <ErrorMessage name="field" component="div" />
               {/* <ErrorMessage name="field" component="div" /> */}
             </div>
-            <div className="col-md-6 col-12 pl-15 mb-32">
+            <div className="col-md-6 col-12 pl-15 mb-20">
               <label className="text-141414 text-weight-400 text-14 mb-2">Email</label>
               <Field type="text" name="email"
                      style={{ height: '46px' }}
@@ -317,7 +333,7 @@ export default function SignUpForm(props) {
               />
               <ErrorMessage className="error-message" name="email" component="div" />
             </div>
-            <div className="col-md-6 col-12 pl-15 mb-32">
+            <div className="col-md-6 col-12 pl-15 mb-20">
               <label className="text-141414 text-weight-400 text-14 mb-2">Password</label>
               <Field style={{ height: '46px' }} type="password" name="password"
                      className="px-10 full-width bg-transparent text-14 text-394560 border-color-D9D9D9 border-radius-4"
@@ -325,6 +341,24 @@ export default function SignUpForm(props) {
               </Field>
               <ErrorMessage className="error-message" name="password" component="div" />
             </div>
+            <div className=" col-12 separator-x mt-3 mb-3"></div>
+            <div className="col-md-6 col-12 pl-15 mb-20">
+              <div> <label className="text-141414 text-weight-400 text-14 mb-2">Referal Code</label>    <Switch
+                    checked={isActive}
+                    onChange={handleToggle}
+                    className="ml-10"
+                    checkedChildren="On"
+                    unCheckedChildren="Off"
+                /></div>
+              
+              <Field style={{ height: '46px' }} type="texxt" name="referred_by" value={props.code} readOnly={!isActive}
+                     className="px-10 full-width bg-transparent text-14 text-394560 border-color-D9D9D9 border-radius-4"
+              >
+              </Field>
+              <ErrorMessage className="error-message" name="referred_by" component="div" />
+        
+            </div>
+           
 
             <div className="flex col-12 mb-32">
               <input className="cursor-pointer" style={{ width: '16px', height: '16px' }} type="checkbox"

@@ -4,20 +4,47 @@ import { privacyPolicy, termsOfService } from '@/utlis/constant';
 import { Modal, Form, Input, Button, message } from 'antd';
 import Image from 'next/image';
 import { useState } from 'react';
-
+import PopUp from './PopUp';
+import { AuthApiService } from '@/app/(auth)/AuthApiService';
 
 
 
 export default function Footer() {
   const [form] = Form.useForm()
   const [activeText, setActiveText] = useState(privacyPolicy);
+  const [popup, setPopup] = useState({
+    show: false,
+    type: '',
+    message: '',
+    timeout: 0,
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContact, setModalContact] = useState(false);
 
-  const handleSendEmail = (values) => {
+ 
+  const handleSendEmail = async (values) => {
     console.log('Form values:', values); 
-    message.success('Your message has been sent!');
+
+    try {
+      const response = await AuthApiService.sendemail(values)
+      if(response.status === 200) {
+        setPopup({
+          show: true,
+          type: 'success',
+          message: 'Successfully send your request.',
+          timeout: 5000,
+        });
+    } 
+  }catch (error) {
+      setPopup({
+        show: true,
+        type: 'error',
+        message: 'Something went wrong. Please try later.',
+        timeout: 5000,
+      });
+    }
+
     form.resetFields(); 
     setModalContact(false); 
   };
@@ -49,7 +76,7 @@ export default function Footer() {
             <div className="flex mobile-justify-center mobile-py-20">
               <p className="mr-24 text-16 text-weight-400 text-262626 cursor-pointer" onClick={()=>{setActiveText(termsOfService);setIsModalOpen(true)}} >Terms of Service</p>
               <p className="text-16 text-weight-400 text-262626 cursor-pointer mr-24" onClick={()=>{setActiveText(privacyPolicy);setIsModalOpen(true)}}>Privacy Policy</p>
-              {/* <p className="text-16 text-weight-400 text-262626 cursor-pointer" onClick={()=>{setModalContact(true)}} >Contact us</p> */}
+              <p className="text-16 text-weight-400 text-262626 cursor-pointer" onClick={()=>{setModalContact(true)}} >Contact us</p>
               
             </div>
           </div>
@@ -89,6 +116,17 @@ export default function Footer() {
           >
             <Input className="pxy-10-15 " placeholder="Enter your email" />
           </Form.Item>
+          <Form.Item
+            label="Phone"
+            name="phone"
+            rules={[
+              { required: true, message: 'Please enter your phone number!' },
+              { pattern: /^((\+92)|(92)|(0))3[0-9]{9}$/,
+                message: 'Please enter a valid Pakistani mobile number!',}
+            ]}
+          >
+            <Input className="pxy-10-15 " placeholder="Enter your phone number" />
+          </Form.Item>
 
           <Form.Item
             label="Message"
@@ -110,5 +148,6 @@ export default function Footer() {
           </Form.Item>
         </Form>
       </Modal> 
+      <PopUp props={popup} />
   </>
 }

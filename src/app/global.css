@@ -616,7 +616,7 @@ p {
   justify-content: space-between;
   align-items: center;
   min-width: 300px;
-  z-index: 1000;
+  z-index: 10000;
   animation: pop-up 0.6s ease-in-out;
 }
 .popup-p {
@@ -936,6 +936,14 @@ p {
     margin-bottom: 20px;
   }
 
+  .hover-invite-btn:hover{
+    background-color: #763FF9;
+    color: white;
+  }
+
+  .invite-modal-header  .ant-modal-title{
+    font-size: 24px;
+  }
 @media (max-width: 1500px) {
   .home-section-tablet-img img {
     width: 628px;

@@ -9,11 +9,14 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation'
 import { useEffect, useState} from 'react';
 import CustomDropdown from '../components/user/CustomDropdown.';
-import { AutoComplete } from 'antd';
+import { AutoComplete, Input, Tooltip, message, Modal } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
+
 import { BaseApi } from '@/app/(base)/BaseApi';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
-import { Modal } from 'antd';
+import PopUp from './PopUp';
+
 export default function Header() {
   const searchParams = useSearchParams();
   const pathname = usePathname()
@@ -30,6 +33,15 @@ export default function Header() {
   !searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)];
   const [isDomLoaded, setIsDomLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [popup, setPopup] = useState({
+    show: false,
+    type: '',
+    message: '',
+    timeout: 0,
+  });
+
+  const referral_code = getUserInfo() && JSON.parse(getUserInfo())?.referral_code
 
   const debouncedGetRecommendations = useCallback(
     debounce(async (text,type) => {
@@ -169,6 +181,24 @@ export default function Header() {
     setSidebarOpen(false);
   };
 
+  const handleCopy = (referral_code)=>{
+    
+    navigator.clipboard.writeText(referral_code).then(()=>{
+      setPopup({
+        show: true,
+        type: 'success',
+        message: 'Copied to clipboard!',
+        timeout: 5000,
+      });
+    }).catch(()=>{
+      setPopup({
+        show: true,
+        type: 'success',
+        message: 'Failed to copy!',
+        timeout: 5000,
+      });
+    })
+  }
   return (
     <nav>
       <div style={{height: '80px', borderBottom: "1.25px solid #E4E7EC"}}
@@ -278,6 +308,17 @@ export default function Header() {
                   <Image height={24} width={24} src="/searchIcon.svg" alt="profileicon"/>
                 </button>
               </>
+          }
+
+          {
+            (pathname === '/' && token && userInfo)  &&
+            <>
+            <div className='cursor-pointer px-20 py-12 text-18 flex justify-center items-center bg-ffffff text-763FF9 border-color-763FF9 border-radius-4 hover-invite-btn'
+              onClick={()=> setInviteModalOpen(true)}
+            >
+                Invite
+            </div>
+            </>
           }
           <div className="ml-30 mobile-ml-15">
             {token && userInfo ? (
@@ -544,6 +585,28 @@ export default function Header() {
         </Modal>
       </div>
       {sidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}
+      <Modal className="invite-modal-header" open={inviteModalOpen} footer={[]}  width={500} onCancel={()=>{setInviteModalOpen(false)}} title="Invite">
+        <h3 className='text-18'>Referral Link</h3>
+            <Input  className='mb-16' size="large" addonAfter={
+                  <Tooltip title="Copy">
+                    <CopyOutlined onClick={()=> handleCopy(referral_code)}  />
+                  </Tooltip>
+            }
+            readOnly
+            value={referral_code} 
+             />
+         <h3 className='text-18'>Referral Code</h3>
+
+             <Input className='mb-16'  size="large" addonAfter={
+                  <Tooltip title="Copy">
+                    <CopyOutlined onClick={()=> handleCopy(referral_code?.split('/')[4])}  />
+                  </Tooltip>
+            }
+            readOnly
+            value={referral_code?.split('/')[4]} 
+             />
+      </Modal>
+      <PopUp props={popup}  />
     </nav>
   );
 }

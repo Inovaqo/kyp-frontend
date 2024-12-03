@@ -17,5 +17,6 @@ export const BaseApiService = {
   getProfessorCourses: (data) => api.get(`/professors/course/${data}`),
   getSavedProfessor:(data) => api.get(`/professors/saved/professors/${data}`),
   getReview:(data) => api.get(`/rating/review/${data}`),
+  
 
 };
