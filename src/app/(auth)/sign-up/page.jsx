@@ -1,7 +1,8 @@
 "use client";
-import { useState,useEffect } from 'react';
+import { useState,useEffect, Suspense } from 'react';
 import SignUpForm from '../../../components/auth/SignUpForm';
 import { AuthApi } from '../AuthApi';
+
 export default function page(){
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [instituteloading,setInstituteLoading] = useState(false);
@@ -39,7 +40,9 @@ export default function page(){
     : <>
       <h2 className="text-24 text-1F1F1F text-center text-xl-start text-weight-500 mb-2">Sign Up</h2>
       <p className="text-434343 text-16 text-center text-xl-start text-weight-400 mb-4">Enter details to create an account</p>
+      <Suspense>
       <SignUpForm institute={institute}/>
+      </Suspense>
       </>
     }
     </div>
